@@ -1,0 +1,6 @@
+
+server/node_modules
+server/package-lock.json
+.idea
+.eslintrc.js
+.gitignore
