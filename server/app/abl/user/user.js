@@ -12,8 +12,8 @@ class UserAuthAbl {
 
     async registration(dtoIn) {
         const {password, email, username} = dtoIn;
-        //const salt = bcrypt.genSalt(8)
-        const passwordHash = bcrypt.hashSync(password, 8);
+        const salt = bcrypt.genSaltSync(8)
+        const passwordHash = bcrypt.hashSync(password, salt);
         try {
             const user = await this.dao.create({email, username, passwordHash});
             const payload = {
