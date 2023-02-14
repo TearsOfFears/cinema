@@ -1,16 +1,16 @@
-const DaoUser = require("../../dao/user/dao.js");
+const DaoUser = require("../../dao/user-dao");
 const Error = require("../../api/errors/user-error").Get;
 
-class GetAbl{
-    constructor() {
-        this.dao = DaoUser;
+class GetAbl {
+  constructor() {
+    this.dao = DaoUser;
+  }
+  async get(dtoIn) {
+    const user = await this.dao.get(dtoIn.id);
+    if (!user) {
+      throw new Error.UserIsNotExist();
     }
-    async get(dtoIn){
-        const user  =  await this.dao.get(dtoIn.id);
-        if (!user){
-            throw new Error.UserIsNotExist()
-        }
-        return user
-    }
+    return user;
+  }
 }
-module.exports = new GetAbl()
+module.exports = new GetAbl();

@@ -1,33 +1,34 @@
-const UserAuthAbl =  require("../../abl/user/user")
-const UserListAbl =  require("../../abl/user/list")
-const UserDeleteAbl =  require("../../abl/user/delete")
-const UserGetAbl =  require("../../abl/user/get")
-const UserUpdateAbl =  require("../../abl/user/update")
+const UserAuthAbl = require("../../abl/user/user");
+const UserListAbl = require("../../abl/user/list");
+const UserDeleteAbl = require("../../abl/user/delete");
+const UserGetAbl = require("../../abl/user/get");
+const UserUpdateAbl = require("../../abl/user/update");
 
-class UsersController{
-    registration(dtoIn) {return UserAuthAbl.registration(dtoIn);
-    }
-    auth(dtoIn) {
-        return UserAuthAbl.auth(dtoIn);
-    }
-    login(dtoIn) {
-        return UserAuthAbl.login(dtoIn);
-    }
-    list(dtoIn) {
-        return UserListAbl.list(dtoIn);
-    }
-    delete(dtoIn) {
-        return UserDeleteAbl.delete(dtoIn);
-    }
-    get(dtoIn) {
-        return UserGetAbl.get(dtoIn);
-    }
-    update(dtoIn) {
-        return UserUpdateAbl.update(dtoIn);
-    }
+class UsersController {
+  registration(dtoIn) {
+    return UserAuthAbl.registration(dtoIn);
+  }
+  refresh(dtoIn) {
+    return UserAuthAbl.refresh(dtoIn);
+  }
+  login(dtoIn) {
+    return UserAuthAbl.login(dtoIn);
+  }
+  list(dtoIn) {
+    return UserListAbl.list(dtoIn);
+  }
+  delete(dtoIn) {
+    return UserDeleteAbl.delete(dtoIn);
+  }
+  get(dtoIn) {
+    return UserGetAbl.get(dtoIn);
+  }
+  update(dtoIn) {
+    return UserUpdateAbl.update(dtoIn);
+  }
 }
 
-module.exports = new UsersController()
+module.exports = new UsersController();
 //
 // const activateAccount = async (req, res) => {
 //     try {

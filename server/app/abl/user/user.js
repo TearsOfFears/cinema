@@ -1,86 +1,80 @@
-const DaoUser = require("../../dao/user/dao.js");
-const UserErrorRegistration = require("./../../api/errors/user-error").Registration
-const UserErrorLogin = require("./../../api/errors/user-error").Login
-const jwt = require('jsonwebtoken')
-require("dotenv/config")
+const DaoUser = require("../../dao/user-dao");
+const UserErrorRegistration =
+  require("./../../api/errors/user-error").Registration;
+const UserErrorLogin = require("./../../api/errors/user-error").Login;
+const AuthError = require("./../../api/errors/user-error").Auth;
+const jwtActions = require("./../../api/components/jwts");
+require("dotenv/config");
 const bcrypt = require("bcrypt");
-
+const cookieParser = require("cookie-parser");
+const passwordHashing = require("./../../api/components/passwordHashing");
 class UserAuthAbl {
-    constructor() {
-        this.dao = DaoUser;
+  constructor() {
+    this.dao = DaoUser;
+    this.passwordHashing = passwordHashing;
+    this.jwt = jwtActions;
+  }
+  async registration(dtoIn) {
+    const { password, email, username } = dtoIn;
+    const passwordHash = this.passwordHashing.generatePassword(password);
+    let user, tokens;
+    try {
+      user = await this.dao.create({ email, username, passwordHash });
+      tokens = this.jwt.createBothToken(user);
+    } catch (e) {
+      if (e.code === 11000) {
+        if (e) throw new UserErrorRegistration.UserIsExist(e);
+      }
+      throw new UserErrorRegistration.CannotRegistration(e);
     }
+    return {
+      user,
+      tokens,
+    };
+  }
 
-    async registration(dtoIn) {
-        const {password, email, username} = dtoIn;
-        const salt = bcrypt.genSaltSync(8)
-        const passwordHash = bcrypt.hashSync(password, salt);
-        try {
-            const user = await this.dao.create({email, username, passwordHash});
-            const payload = {
-                id: user._id,
-                expire: Date.now() + 1000 * 60 * 60 * 24 * 7, //7 days
-            };
-            const token = jwt.sign(payload, process.env.JWTSECRET);
-            return {
-                user,
-                token
-            };
-        } catch (e) {
-            throw new UserErrorRegistration.UserIsExist(e)
-        }
-
+  async login(dtoIn) {
+    const { password, email } = dtoIn;
+    let user;
+    try {
+      user = await this.dao.getByEmail({ email });
+    } catch (e) {
+      throw new UserErrorLogin.CannotLogin(e);
     }
-
-    async login(dtoIn) {
-        const {password, email} = dtoIn;
-        let user
-        try {
-            user = await this.dao.getByEmail({email: email});
-        } catch (e) {
-            throw  new UserErrorLogin.CannotLogin(e);
-        }
-        if (!user) {
-            throw  new UserErrorLogin.UserNotFound();
-        }
-        const match = await bcrypt.compare(password, user.passwordHash);
-        if (match) {
-            const payload = {
-                id: user._id,
-                expire: Date.now() + 1000 * 60 * 60 * 24 * 7, //7 days
-            };
-            const token = jwt.sign(payload, process.env.JWTSECRET);
-            const {passwordHash, ...dtoOut} = user
-            return {
-                dtoOut,
-                token
-            };
-        } else {
-            throw new UserErrorLogin.PasswordIsNotCorrect();
-        }
+    if (!user) {
+      throw new UserErrorLogin.UserNotFound();
     }
-
-    async auth(dtoIn) {
-        const {id} = dtoIn;
-        let user
-        try {
-            user = await this.dao.get(id);
-        } catch (e) {
-            throw  new UserErrorLogin.CannotLogin(e);
-        }
-        if (!user) {
-            throw  new UserErrorLogin.UserNotFound();
-        }
-        const payload = {
-            id: user._id,
-            expire: Date.now() + 1000 * 60 * 60 * 24 * 7, //7 days
-        };
-        const token = jwt.sign(payload, process.env.JWTSECRET);
-        const {passwordHash, ...dtoOut} = user
-        return {
-            dtoOut,
-            token
-        }
+    const match = await this.passwordHashing.verifyPassword(password, user);
+    if (match) {
+      const tokens = this.jwt.createBothToken(user);
+      const { passwordHash, ...dtoOut } = user;
+      return {
+        dtoOut,
+        tokens,
+      };
+    } else {
+      throw new UserErrorLogin.PasswordIsNotCorrect();
     }
+  }
+
+  async refresh(dtoIn) {
+    const { id } = dtoIn;
+    let user;
+    try {
+      user = await this.dao.get(id);
+    } catch (e) {
+      throw new AuthError.CannotGetUser(e);
+    }
+    if (!user) {
+      throw new UserErrorLogin.UserNotFound();
+    }
+    const tokens = this.jwt.createBothToken(user);
+    const { passwordHash, ...dtoOut } = user;
+    return {
+      dtoOut,
+      tokens,
+    };
+  }
 }
 
-module.exports = new UserAuthAbl()
+module.exports = new UserAuthAbl();
