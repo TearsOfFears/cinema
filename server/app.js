@@ -3,9 +3,9 @@ const fs = require("fs");
 const path = require("path");
 const mongoose = require("mongoose");
 const logger = require("morgan");
-const usersRouter = require("./app/api/routes/Users");
+const usersRouter = require("./app/api/routes/users");
+const profilesRouter = require("./app/api/routes/profiles");
 const { handleError } = require("./app/api/errors/helpers/error");
-// const auth = require("./app/api/middlewares/auth")();
 const cookieParser = require("cookie-parser");
 require("dotenv").config();
 const app = express();
@@ -26,9 +26,11 @@ mongoose
   .finally(() => console.log("MongoDB is connected!!!"));
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 
 app.use("/api/user", usersRouter);
+app.use("/api/profiles", profilesRouter);
 
 app.use(handleError);
 app.listen(process.env.PORT, () => {

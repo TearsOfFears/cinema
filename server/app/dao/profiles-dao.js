@@ -1,14 +1,13 @@
-const Model = require("../models/user-schema.js");
+const Model = require("../models/profiles-schema");
 const { STATES } = require("../abl/user/constants");
 
-class DaoUsers {
+class DaoProfiles {
   constructor() {
     this.dao = Model;
   }
   async create(object) {
     const doc = await this.dao.create(object);
-    const { passwordHash, ...dtoOut } = doc._doc;
-    return dtoOut;
+    return doc?._doc;
   }
   async list(dtoIn) {
     const objects = await this.dao
@@ -41,9 +40,8 @@ class DaoUsers {
     const doc = await this.dao.findByIdAndUpdate(dtoIn.id, dtoIn, {
       returnDocument: "after",
     });
-    const { passwordHash, ...dtoOut } = doc._doc;
-    return dtoOut;
+    return doc?._doc;
   }
 }
 
-module.exports = new DaoUsers();
+module.exports = new DaoProfiles();

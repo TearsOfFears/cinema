@@ -5,7 +5,6 @@ module.exports = (req, res, next) => {
     /Bearer\s?/,
     ""
   );
-  const refreshToken = req.cookies;
   if (accessToken) {
     try {
       const userData = jwts.verifyAccessToken(accessToken);

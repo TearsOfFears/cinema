@@ -2,7 +2,7 @@
 const { AppError, HttpStatusCode } = require("./helpers/error");
 
 const Registration = {
-  UC_CODE: `${AppError.getCode()}user/registration/`,
+  UC_CODE: `${AppError.getCode()}profiles/registration/`,
   CannotRegistration: class extends AppError {
     constructor(message) {
       super(...arguments);
@@ -56,7 +56,7 @@ const Login = {
   },
 };
 const Auth = {
-  UC_CODE: `${AppError.getCode()}user/auth/`,
+  UC_CODE: `${AppError.getCode()}profiles/auth/`,
   CannotGetUser: class extends AppError {
     constructor(message) {
       super(...arguments);
@@ -83,7 +83,7 @@ const Auth = {
   },
 };
 const Delete = {
-  UC_CODE: `${AppError.getCode()}user/delete/`,
+  UC_CODE: `${AppError.getCode()}profiles/delete/`,
   UserIsNotExist: class extends AppError {
     constructor() {
       super(...arguments);
@@ -110,7 +110,7 @@ const Delete = {
   },
 };
 const Get = {
-  UC_CODE: `${AppError.getCode()}user/get/`,
+  UC_CODE: `${AppError.getCode()}profiles/get/`,
   UserIsNotExist: class extends AppError {
     constructor() {
       super(...arguments);
@@ -129,7 +129,7 @@ const Get = {
   },
 };
 const Update = {
-  UC_CODE: `${AppError.getCode()}user/update/`,
+  UC_CODE: `${AppError.getCode()}profiles/update/`,
   UserIsNotExist: class extends AppError {
     constructor() {
       super(...arguments);
@@ -155,6 +155,26 @@ const Update = {
     }
   },
 };
+const Create = {
+  UC_CODE: `${AppError.getCode()}profiles/create/`,
+
+  CannotUpdate: class extends AppError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Create.UC_CODE}cannotUpdate`;
+      this.message = "User cannot update";
+      this.statusCode = HttpStatusCode.CANNOT_GET;
+    }
+  },
+  CannotCreate: class extends AppError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Create.UC_CODE}cannotCreate`;
+      this.message = "Cannot create user";
+      this.statusCode = HttpStatusCode.CANNOT_GET;
+    }
+  },
+};
 module.exports = {
   Registration,
   Login,
@@ -162,4 +182,5 @@ module.exports = {
   Get,
   Auth,
   Update,
+  Create,
 };

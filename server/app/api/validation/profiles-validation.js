@@ -1,18 +1,10 @@
 const { body } = require("express-validator");
-const registrationValidation = () => [
-  body("username")
+const createValidation = () => [
+  body("name").exists(),
+  body("description")
     .isLength({ min: 5 })
     .withMessage("Need at least 5 characters"),
-  body("password")
-    .isLength({ min: 5 })
-    .withMessage("Need at least 5 characters"),
-  body("email").isEmail(),
-];
-const loginValidation = () => [
-  body("email").isEmail(),
-  body("password")
-    .isLength({ min: 5 })
-    .withMessage("Need at least 5 characters"),
+  body("state").isString(),
 ];
 const deleteValidation = () => [body("id").isMongoId()];
 const getValidation = () => [body("id").isMongoId()];
@@ -33,8 +25,7 @@ const updateValidation = () => [
   body("roles").isArray().isIn(["Admin", "Editor", "User"]).optional(),
 ];
 module.exports = {
-  registrationValidation,
-  loginValidation,
+  createValidation,
   deleteValidation,
   getValidation,
   updateValidation,

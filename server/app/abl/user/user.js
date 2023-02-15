@@ -5,8 +5,6 @@ const UserErrorLogin = require("./../../api/errors/user-error").Login;
 const AuthError = require("./../../api/errors/user-error").Auth;
 const jwtActions = require("./../../api/components/jwts");
 require("dotenv/config");
-const bcrypt = require("bcrypt");
-const cookieParser = require("cookie-parser");
 const passwordHashing = require("./../../api/components/passwordHashing");
 class UserAuthAbl {
   constructor() {
@@ -23,7 +21,7 @@ class UserAuthAbl {
       tokens = this.jwt.createBothToken(user);
     } catch (e) {
       if (e.code === 11000) {
-        if (e) throw new UserErrorRegistration.UserIsExist(e);
+        throw new UserErrorRegistration.UserIsExist(e);
       }
       throw new UserErrorRegistration.CannotRegistration(e);
     }
@@ -56,7 +54,6 @@ class UserAuthAbl {
       throw new UserErrorLogin.PasswordIsNotCorrect();
     }
   }
-
   async refresh(dtoIn) {
     const { id } = dtoIn;
     let user;

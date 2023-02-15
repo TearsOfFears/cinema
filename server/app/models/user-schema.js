@@ -5,9 +5,11 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
+      index: true,
     },
     username: {
       type: String,
+      index: true,
     },
     passwordHash: {
       type: String,
@@ -31,9 +33,13 @@ const UserSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    roles: {
+    profiles: {
       type: Array,
       default: [],
+    },
+    state: {
+      type: String,
+      default: "active",
     },
     typeRegist: String,
     activationLink: String,
@@ -50,4 +56,5 @@ const UserSchema = new mongoose.Schema(
   }
 );
 
+UserSchema.index({ userName: 1, email: -1 }, { unique: true });
 module.exports = mongoose.model("user", UserSchema);

@@ -8,8 +8,8 @@
     "plugins": ["prettier"],
     "rules": {
         "prettier/prettier": "error",
-        "arrow-body-style": "off",
-        "prefer-arrow-callback": "off"
+        "arrow-body-style": "warn",
+        "prefer-arrow-callback": "warn"
     },
     "parserOptions": {
         "ecmaVersion": "latest"

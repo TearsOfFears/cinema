@@ -1,5 +1,5 @@
 const Router = require("express").Router;
-const UserController = require("../controllers/UsersController");
+const UserController = require("../controllers/users-controller");
 const response = require("./../middlewares/responseMiddle");
 const validate = require("./../middlewares/validate");
 const {
@@ -8,6 +8,7 @@ const {
   deleteValidation,
   getValidation,
   updateValidation,
+  listValidation,
 } = require("../validation/user-validation");
 const auth = require("../middlewares/auth");
 
@@ -36,6 +37,7 @@ router.post(
 // );
 router.get(
   "/list",
+  listValidation(),
   auth,
   response(async (dtoIn) => UserController.list(dtoIn))
 );
@@ -56,7 +58,7 @@ router.delete(
   "/delete",
   deleteValidation(),
   validate,
-  // auth.authenticate(),
+  auth,
   response(async (dtoIn) => UserController.delete(dtoIn))
 );
 
