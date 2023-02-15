@@ -111,19 +111,11 @@ const Delete = {
 };
 const Get = {
   UC_CODE: `${AppError.getCode()}profiles/get/`,
-  UserIsNotExist: class extends AppError {
+  ProfileIsNotExist: class extends AppError {
     constructor() {
       super(...arguments);
-      this.code = `${Get.UC_CODE}userIsNotExist`;
-      this.message = "User not exist";
-      this.statusCode = HttpStatusCode.CANNOT_GET;
-    }
-  },
-  UserIsNotActiveState: class extends AppError {
-    constructor() {
-      super(...arguments);
-      this.code = `${Update.UC_CODE}userIsNotActiveState`;
-      this.message = "User is not in active state";
+      this.code = `${Get.UC_CODE}profileIsNotExist`;
+      this.message = "Profile not exist";
       this.statusCode = HttpStatusCode.CANNOT_GET;
     }
   },

@@ -1,24 +1,24 @@
 const CreateAbl = require("../../abl/profiles/create");
-const UserListAbl = require("../../abl/user/list");
-const UserDeleteAbl = require("../../abl/user/delete");
-const UserGetAbl = require("../../abl/user/get");
-const UserUpdateAbl = require("../../abl/user/update");
+const ListAbl = require("../../abl/user/list");
+const DeleteAbl = require("../../abl/user/delete");
+const GetAbl = require("../../abl/profiles/get");
+const UpdateAbl = require("../../abl/user/update");
 
 class ProfilesController {
   create(dtoIn) {
     return CreateAbl.create(dtoIn);
   }
   list(dtoIn) {
-    return UserListAbl.list(dtoIn);
+    return ListAbl.list(dtoIn);
   }
   delete(dtoIn) {
-    return UserDeleteAbl.delete(dtoIn);
+    return DeleteAbl.delete(dtoIn);
   }
   get(dtoIn) {
-    return UserGetAbl.get(dtoIn);
+    return GetAbl.get(dtoIn);
   }
   update(dtoIn) {
-    return UserUpdateAbl.update(dtoIn);
+    return UpdateAbl.update(dtoIn);
   }
 }
 

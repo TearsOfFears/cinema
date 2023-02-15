@@ -7,7 +7,7 @@ class DaoUsers {
   }
   async create(object) {
     const doc = await this.dao.create(object);
-    const { passwordHash, ...dtoOut } = doc._doc;
+    const { passwordHash, ...dtoOut } = doc.dataValues;
     return dtoOut;
   }
   async list(dtoIn) {

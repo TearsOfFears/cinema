@@ -20,7 +20,7 @@ class UserAuthAbl {
       user = await this.dao.create({ email, username, passwordHash });
       tokens = this.jwt.createBothToken(user);
     } catch (e) {
-      if (e.code === 11000) {
+      if (e.name === "SequelizeUniqueConstraintError") {
         throw new UserErrorRegistration.UserIsExist(e);
       }
       throw new UserErrorRegistration.CannotRegistration(e);

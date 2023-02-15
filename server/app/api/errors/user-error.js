@@ -8,7 +8,7 @@ const Registration = {
       super(...arguments);
       this.code = `${Registration.UC_CODE}cannotRegistration`;
       this.message = "Cannot Registration";
-      this.statusCode = HttpStatusCode.CANNOT_GET;
+      this.statusCode = HttpStatusCode.BAD_REQUEST;
     }
   },
   RegistrationFailed: class extends AppError {
