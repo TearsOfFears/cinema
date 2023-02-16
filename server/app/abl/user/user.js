@@ -1,4 +1,5 @@
 const DaoUser = require("../../dao/user-dao");
+const DaoProfiles = require("../../dao/profiles-dao");
 const UserErrorRegistration =
   require("./../../api/errors/user-error").Registration;
 const UserErrorLogin = require("./../../api/errors/user-error").Login;
@@ -9,15 +10,24 @@ const passwordHashing = require("./../../api/components/passwordHashing");
 class UserAuthAbl {
   constructor() {
     this.dao = DaoUser;
+    this.daoProfiles = DaoProfiles;
     this.passwordHashing = passwordHashing;
     this.jwt = jwtActions;
   }
   async registration(dtoIn) {
     const { password, email, username } = dtoIn;
     const passwordHash = this.passwordHashing.generatePassword(password);
+    let standardProflile = await this.daoProfiles.getStandardProfile({
+      name: "Standard",
+    });
     let user, tokens;
     try {
-      user = await this.dao.create({ email, username, passwordHash });
+      user = await this.dao.create({
+        email,
+        username,
+        passwordHash,
+        profiles: [standardProflile],
+      });
       tokens = this.jwt.createBothToken(user);
     } catch (e) {
       if (e.name === "SequelizeUniqueConstraintError") {

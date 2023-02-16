@@ -18,6 +18,7 @@ class UpdateAbl {
     try {
       dtoOut = await this.dao.update(dtoIn);
     } catch (e) {
+      console.log(e);
       throw new Error.CannotUpdate();
     }
     return dtoOut;

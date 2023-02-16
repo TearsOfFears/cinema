@@ -9,6 +9,7 @@ const {
   getValidation,
   updateValidation,
   listValidation,
+  setProfilesValidation,
 } = require("../validation/user-validation");
 const auth = require("../middlewares/auth");
 
@@ -45,14 +46,29 @@ router.get(
   "/get",
   getValidation(),
   validate,
+  auth,
   response(async (dtoIn) => UserController.get(dtoIn))
 );
 router.patch(
   "/update",
   updateValidation(),
   validate,
-  // auth.authenticate(),
+  auth,
   response(async (dtoIn) => UserController.update(dtoIn))
+);
+router.patch(
+  "/setProfile",
+  setProfilesValidation(),
+  validate,
+  auth,
+  response(async (dtoIn) => UserController.setProfile(dtoIn))
+);
+router.patch(
+  "/setState",
+  updateValidation(),
+  validate,
+  auth,
+  response(async (dtoIn) => UserController.setState(dtoIn))
 );
 router.delete(
   "/delete",

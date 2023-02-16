@@ -2,7 +2,7 @@ const { sequelize } = require("./../db/connect");
 const { DataTypes, Model } = require("sequelize");
 class Profiles extends Model {
   static associate({ Post }) {
-    this.hasMany(Post, { foreignKey: "userId", as: "posts" });
+    // this.hasMany(Post, { foreignKey: "userId", as: "posts" });
   }
   toJSON() {
     return { ...this.get(), id: undefined };
@@ -11,9 +11,10 @@ class Profiles extends Model {
 
 const ProfileSchema = Profiles.init(
   {
-    uuid: {
+    id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
+      primaryKey: true,
     },
     description: {
       type: DataTypes.STRING(1000),
@@ -22,11 +23,6 @@ const ProfileSchema = Profiles.init(
       type: DataTypes.STRING(255),
       allowNull: false,
       unique: true,
-    },
-    state: {
-      type: DataTypes.STRING(255),
-      validate: { isIn: [["active", "passive", "closed"]] },
-      defaultValue: "active",
     },
   },
   {
@@ -37,6 +33,7 @@ const ProfileSchema = Profiles.init(
     updatedAt: true,
   }
 );
+
 module.exports = ProfileSchema;
 
 // const mongoose = require("mongoose");

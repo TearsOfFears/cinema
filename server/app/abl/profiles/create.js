@@ -10,7 +10,7 @@ class CreateAbl {
     try {
       dtoOut = await this.dao.create(dtoIn);
     } catch (e) {
-      throw new Error.CannotUpdate();
+      throw new Error.CannotCreate(e);
     }
     return dtoOut;
   }

@@ -4,10 +4,9 @@ const createValidation = () => [
   body("description")
     .isLength({ min: 5 })
     .withMessage("Need at least 5 characters"),
-  body("state").isString(),
 ];
-const deleteValidation = () => [body("id").isMongoId()];
-const getValidation = () => [body("id").isMongoId()];
+const deleteValidation = () => [body("id").isUUID(4)];
+const getValidation = () => [body("id").isUUID(4)];
 const listValidation = () => [
   body("sort").exists().isString(),
   body("key").exists().isString(),
@@ -16,13 +15,11 @@ const listValidation = () => [
   body("pageInfo.pageIndex").exists().isNumeric(),
 ];
 const updateValidation = () => [
-  body("id").isMongoId(),
-  body("email").isEmail(),
-  body("fullName")
+  body("id").isUUID(4),
+  body("name").exists(),
+  body("description")
     .isLength({ min: 5 })
-    .withMessage("Need at least 5 characters")
-    .optional(),
-  body("roles").isArray().isIn(["Admin", "Editor", "User"]).optional(),
+    .withMessage("Need at least 5 characters"),
 ];
 module.exports = {
   createValidation,

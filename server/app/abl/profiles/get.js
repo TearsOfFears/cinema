@@ -7,7 +7,12 @@ class GetAbl {
     this.dao = DaoProfiles;
   }
   async get(dtoIn) {
-    const user = await this.dao.get(dtoIn.id);
+    let user;
+    try {
+      user = await this.dao.get(dtoIn.id);
+    } catch (e) {
+      console.log(e);
+    }
     if (!user) {
       throw new Error.ProfileIsNotExist();
     }

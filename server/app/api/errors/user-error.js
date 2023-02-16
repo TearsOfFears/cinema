@@ -155,6 +155,68 @@ const Update = {
     }
   },
 };
+const SetProfile = {
+  UC_CODE: `${AppError.getCode()}user/setProfile/`,
+  UserIsNotExist: class extends AppError {
+    constructor() {
+      super(...arguments);
+      this.code = `${SetProfile.UC_CODE}userIsNotExist`;
+      this.message = "User not exist";
+      this.statusCode = HttpStatusCode.CANNOT_GET;
+    }
+  },
+  CannotUpdate: class extends AppError {
+    constructor() {
+      super(...arguments);
+      this.code = `${SetProfile.UC_CODE}cannotUpdate`;
+      this.message = "User cannot update";
+      this.statusCode = HttpStatusCode.CANNOT_GET;
+    }
+  },
+  OneOfTheProfilesDoesNotExist: class extends AppError {
+    constructor() {
+      super(...arguments);
+      this.code = `${SetProfile.UC_CODE}oneOfTheProfilesDoesNotExist`;
+      this.message = "One of the inserted profiles does not exist";
+      this.statusCode = HttpStatusCode.CANNOT_GET;
+    }
+  },
+  UserIsNotActiveState: class extends AppError {
+    constructor() {
+      super(...arguments);
+      this.code = `${SetProfile.UC_CODE}userIsNotActiveState`;
+      this.message = "User is not in active state";
+      this.statusCode = HttpStatusCode.CANNOT_GET;
+    }
+  },
+};
+const SetState = {
+  UC_CODE: `${AppError.getCode()}user/setState/`,
+  UserIsNotExist: class extends AppError {
+    constructor() {
+      super(...arguments);
+      this.code = `${SetState.UC_CODE}userIsNotExist`;
+      this.message = "User not exist";
+      this.statusCode = HttpStatusCode.CANNOT_GET;
+    }
+  },
+  CannotUpdate: class extends AppError {
+    constructor() {
+      super(...arguments);
+      this.code = `${SetState.UC_CODE}cannotUpdate`;
+      this.message = "User cannot update";
+      this.statusCode = HttpStatusCode.CANNOT_GET;
+    }
+  },
+  UserIsAlreadyInActiveState: class extends AppError {
+    constructor() {
+      super(...arguments);
+      this.code = `${SetState.UC_CODE}userIsAlreadyInActiveState`;
+      this.message = "User is already in active state";
+      this.statusCode = HttpStatusCode.CANNOT_GET;
+    }
+  },
+};
 module.exports = {
   Registration,
   Login,
@@ -162,4 +224,6 @@ module.exports = {
   Get,
   Auth,
   Update,
+  SetState,
+  SetProfile,
 };

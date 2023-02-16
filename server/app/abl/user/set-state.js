@@ -1,6 +1,5 @@
 const DaoUser = require("../../dao/user-dao");
-const { STATES } = require("./constants");
-const Error = require("./../../api/errors/user-error").Update;
+const Error = require("./../../api/errors/user-error").SeState;
 
 class SetStateAbl {
   constructor() {
@@ -11,12 +10,12 @@ class SetStateAbl {
     if (!user) {
       throw new Error.UserIsNotExist();
     }
-    if (user.state !== STATES.ACTIVE) {
-      throw new Error.UserIsNotActiveState();
+    if (user.state === dtoIn.ACTIVE) {
+      throw new Error.UserIsAlreadyInActiveState();
     }
     let dtoOut;
     try {
-      dtoOut = await this.dao.update(dtoIn);
+      dtoOut = await this.dao.setState(dtoIn);
     } catch (e) {
       throw new Error.CannotUpdate();
     }

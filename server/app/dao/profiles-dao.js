@@ -7,14 +7,17 @@ class DaoProfiles {
   }
   async create(object) {
     const doc = await this.dao.create(object);
-    return doc?._doc;
+    return doc?.dataValues;
   }
   async list(dtoIn) {
-    const objects = await this.dao
-      .find({ state: STATES.ACTIVE })
-      .sort([[dtoIn.sort, dtoIn.key]])
-      .limit(dtoIn.pageInfo.pageSize)
-      .skip(dtoIn.pageInfo.pageSize * dtoIn.pageInfo.pageIndex);
+    const offset = dtoIn.pageInfo.pageSize * dtoIn.pageInfo.pageIndex;
+    const limit = dtoIn.pageInfo.pageSize;
+    const objects = await this.dao.findAll({
+      limit,
+      offset,
+      where: { state: STATES.ACTIVE },
+      order: [[dtoIn.sort, dtoIn.key]],
+    });
     return {
       items: objects,
       pageInfo: {
@@ -24,23 +27,50 @@ class DaoProfiles {
     };
   }
   async delete(id) {
-    return await this.dao.findByIdAndDelete(id);
+    return await this.dao.destroy({
+      where: {
+        id,
+      },
+    });
   }
   async get(id) {
-    const doc = await this.dao.findById(id);
+    const doc = await this.dao.findOne({
+      where: {
+        id,
+      },
+    });
     if (!doc) return null;
-    const { passwordHash, ...dtoOut } = doc?._doc;
+    return doc?.dataValues;
+  }
+  async getStandardProfile(dtoIn) {
+    const doc = await this.dao.findOne({
+      where: {
+        dtoIn,
+      },
+    });
+    if (!doc) return null;
+    return doc?.dataValues.id;
+  }
+  async getProfilesByIds({ profilesArrayId }) {
+    const dtoOut = await this.dao.findAll({
+      where: {
+        id: profilesArrayId,
+      },
+      attributes: [`id`],
+      raw: true,
+    });
+    if (!dtoOut) return null;
     return dtoOut;
   }
-  async getByEmail(object) {
-    const doc = await this.dao.findOne(object);
-    return doc?._doc;
-  }
   async update(dtoIn) {
-    const doc = await this.dao.findByIdAndUpdate(dtoIn.id, dtoIn, {
-      returnDocument: "after",
+    const { id, username, profiles } = dtoIn;
+    const doc = await this.dao.update(dtoIn, {
+      where: { id },
+      returning: true,
+      plain: true,
     });
-    return doc?._doc;
+    if (!doc) return null;
+    return doc[1].dataValues;
   }
 }
 

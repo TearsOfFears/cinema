@@ -3,6 +3,8 @@ const UserListAbl = require("../../abl/user/list");
 const UserDeleteAbl = require("../../abl/user/delete");
 const UserGetAbl = require("../../abl/user/get");
 const UserUpdateAbl = require("../../abl/user/update");
+const UserSetProfileAbl = require("../../abl/user/set-profile");
+const UserSetStateAbl = require("../../abl/user/set-state");
 
 class UsersController {
   registration(dtoIn) {
@@ -25,6 +27,12 @@ class UsersController {
   }
   update(dtoIn) {
     return UserUpdateAbl.update(dtoIn);
+  }
+  setProfile(dtoIn) {
+    return UserSetProfileAbl.setProfile(dtoIn);
+  }
+  setState(dtoIn) {
+    return UserSetStateAbl.setState(dtoIn);
   }
 }
 

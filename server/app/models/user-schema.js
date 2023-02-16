@@ -1,9 +1,9 @@
-// const mongoose = require("mongoose");
 const { sequelize } = require("./../db/connect");
 const { DataTypes, Model } = require("sequelize");
+const Profiles = require("./profiles-schema");
 class User extends Model {
   static associate({ Post }) {
-    this.hasMany(Post, { foreignKey: "userId", as: "posts" });
+    // this.hasMany(Post, { foreignKey: "userId", as: "posts" });
   }
   toJSON() {
     return { ...this.get(), id: undefined };
@@ -12,9 +12,10 @@ class User extends Model {
 
 const UserSchema = User.init(
   {
-    uuid: {
+    id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
+      primaryKey: true,
     },
     email: {
       type: DataTypes.STRING(30),
@@ -27,6 +28,16 @@ const UserSchema = User.init(
     username: {
       type: DataTypes.STRING(255),
       allowNull: false,
+    },
+    profiles: {
+      type: DataTypes.ARRAY({
+        type: DataTypes.UUID,
+        references: {
+          model: Profiles,
+          key: "id",
+        },
+        allowNull: false,
+      }),
     },
     state: {
       type: DataTypes.STRING(255),
@@ -42,6 +53,7 @@ const UserSchema = User.init(
     updatedAt: true,
   }
 );
+
 module.exports = UserSchema;
 
 // const UserSchema = new mongoose.Schema(

@@ -154,7 +154,7 @@ const Create = {
     constructor() {
       super(...arguments);
       this.code = `${Create.UC_CODE}cannotUpdate`;
-      this.message = "User cannot update";
+      this.message = "User cannot create";
       this.statusCode = HttpStatusCode.CANNOT_GET;
     }
   },
@@ -162,7 +162,7 @@ const Create = {
     constructor() {
       super(...arguments);
       this.code = `${Create.UC_CODE}cannotCreate`;
-      this.message = "Cannot create user";
+      this.message = "Cannot create user something wrong with db";
       this.statusCode = HttpStatusCode.CANNOT_GET;
     }
   },
