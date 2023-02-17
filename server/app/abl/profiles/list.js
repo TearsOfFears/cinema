@@ -1,8 +1,8 @@
-const DaoUser = require("../../dao/user-dao");
+const DaoProfiles = require("../../dao/profiles-dao");
 
 class ListAbl {
   constructor() {
-    this.dao = DaoUser;
+    this.dao = DaoProfiles;
   }
   async list(dtoIn) {
     dtoIn.pageInfo ||= {};

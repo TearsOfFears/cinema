@@ -9,7 +9,7 @@ class passwordHashing {
     return this.crypto.hashSync(password, salt);
   }
   async verifyPassword(password, user) {
-    return await this.crypto.compare(password, user.passwordHash);
+    return await this.crypto.compare(password, user.password_hash);
   }
 }
 

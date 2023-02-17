@@ -1,7 +1,7 @@
 const { sequelize } = require("./../db/connect");
 const { DataTypes, Model } = require("sequelize");
 const Profiles = require("./profiles-schema");
-class User extends Model {
+class Genre extends Model {
   static associate({ Post }) {
     // this.hasMany(Post, { foreignKey: "userId", as: "posts" });
   }
@@ -10,27 +10,37 @@ class User extends Model {
   }
 }
 
-const UserSchema = User.init(
+const GenreSchema = Genre.init(
   {
-    user_id: {
+    movie_id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
       allowNull: false,
     },
-    email: {
-      type: DataTypes.STRING(30),
+    title: {
+      type: DataTypes.STRING(1000),
       unique: true,
       require: true,
     },
-    password_hash: {
-      type: DataTypes.STRING(100),
+    description: {
+      type: DataTypes.STRING(3000),
     },
-    username: {
-      type: DataTypes.STRING(255),
-      allowNull: false,
+    duration: {
+      type: DataTypes.STRING(50),
     },
-    profiles: {
+    language: {
+      type: DataTypes.ARRAY({
+        type: DataTypes.STRING(3),
+      }),
+    },
+    releaseDate: {
+      type: DataTypes.DATE(),
+    },
+    country: {
+      type: DataTypes.STRING(2),
+    },
+    genre: {
       type: DataTypes.ARRAY({
         type: DataTypes.UUID,
         references: {
@@ -41,21 +51,21 @@ const UserSchema = User.init(
       }),
     },
     state: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.STRING(10),
       validate: { isIn: [["active", "passive", "closed"]] },
       defaultValue: "active",
     },
   },
   {
     sequelize,
-    tableName: "users",
+    tableName: "genres",
     timestamps: true,
     createdAt: true,
     updatedAt: true,
   }
 );
 
-module.exports = UserSchema;
+module.exports = GenreSchema;
 
 // const UserSchema = new mongoose.Schema(
 //   {

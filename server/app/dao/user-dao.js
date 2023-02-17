@@ -1,7 +1,6 @@
 const ModelUser = require("../models/user-schema.js");
 const ModelProfiles = require("../models/profiles-schema");
 const { STATES } = require("../abl/user/constants");
-const { model } = require("mongoose");
 
 class DaoUsers {
   constructor() {
@@ -10,7 +9,7 @@ class DaoUsers {
   }
   async create(object) {
     const doc = await this.dao.create(object);
-    const { passwordHash, ...dtoOut } = doc.dataValues;
+    const { password_hash, ...dtoOut } = doc.dataValues;
     return dtoOut;
   }
   async list(dtoIn) {
@@ -20,6 +19,7 @@ class DaoUsers {
       limit,
       offset,
       where: { state: STATES.ACTIVE },
+      attributes: { exclude: ["password_hash"] },
       order: [[dtoIn.sort, dtoIn.key]],
     });
     return {
@@ -33,57 +33,56 @@ class DaoUsers {
   async delete(id) {
     return await this.dao.destroy({
       where: {
-        id,
+        user_id: id,
       },
     });
   }
   async get(id) {
     const doc = await this.dao.findOne({
       where: {
-        id,
+        user_id: id,
       },
     });
     if (!doc) return null;
-    const { passwordHash, ...dtoOut } = doc.dataValues;
+    const { password_hash, ...dtoOut } = doc.dataValues;
     return dtoOut;
   }
-  async getByEmail(object) {
+  async getByEmail(email) {
     const doc = await this.dao.findOne({
       where: {
-        object,
+        email,
       },
     });
     if (!doc) return null;
-    const { passwordHash, ...dtoOut } = doc.dataValues;
-    return dtoOut;
+    return doc.dataValues;
   }
   async update(dtoIn) {
     const { id, username } = dtoIn;
     const doc = await this.dao.update(
       { username },
-      { where: { id }, returning: true, plain: true }
+      { where: { user_id: id }, returning: true, plain: true }
     );
     if (!doc) return null;
-    const { passwordHash, ...dtoOut } = doc[1].dataValues;
+    const { password_hash, ...dtoOut } = doc[1].dataValues;
     return dtoOut;
   }
   async updateProfiles(id, dtoIn) {
     const doc = await this.dao.update(
       { profiles: dtoIn.profilesArrayId },
-      { where: { id }, returning: true, plain: true }
+      { where: { user_id: id }, returning: true, plain: true }
     );
     if (!doc) return null;
-    const { passwordHash, ...dtoOut } = doc[1].dataValues;
+    const { password_hash, ...dtoOut } = doc[1].dataValues;
     return dtoOut;
   }
   async setState(dtoIn) {
     const { id, state } = dtoIn;
     const doc = await this.dao.update(
       { state },
-      { where: { id }, returning: true, plain: true }
+      { where: { user_id: id }, returning: true, plain: true }
     );
     if (!doc) return null;
-    const { passwordHash, ...dtoOut } = doc[1].dataValues;
+    const { password_hash, ...dtoOut } = doc[1].dataValues;
     return dtoOut;
   }
 }

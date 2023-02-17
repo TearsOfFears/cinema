@@ -6,6 +6,10 @@ const registrationValidation = () => [
   body("password")
     .isLength({ min: 5 })
     .withMessage("Need at least 5 characters"),
+  body("phone")
+    .isLength({ min: 5 })
+    .withMessage("Need at least 5 characters")
+    .optional(),
   body("email").isEmail(),
 ];
 const loginValidation = () => [

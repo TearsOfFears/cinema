@@ -11,7 +11,7 @@ class Profiles extends Model {
 
 const ProfileSchema = Profiles.init(
   {
-    id: {
+    profile_id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
@@ -27,7 +27,7 @@ const ProfileSchema = Profiles.init(
   },
   {
     sequelize,
-    tableName: "profiles",
+    tableName: "profile",
     timestamps: true,
     createdAt: true,
     updatedAt: true,

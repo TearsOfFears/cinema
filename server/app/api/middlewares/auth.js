@@ -1,6 +1,7 @@
 const jwts = require("./../components/jwts");
 const { HttpStatusCode } = require("./../errors/helpers/error");
-module.exports = (req, res, next) => {
+const DaoProfiles = require("./../../dao/profiles-dao");
+module.exports = (rolesCheck) => async (req, res, next) => {
   const accessToken = (req.headers.authorization || "").replace(
     /Bearer\s?/,
     ""
@@ -9,15 +10,25 @@ module.exports = (req, res, next) => {
   if (accessToken) {
     try {
       const userData = jwts.verifyAccessToken(accessToken);
-      // let test = jwts.createRefreshToken(decoded);
-      // res.userId = decoded._id;
-      console.log("userData", userData);
+      const { profiles } = userData;
+      const profileId = await DaoProfiles.getProfilesByName({
+        name: rolesCheck,
+      });
+      let hasRole = false;
+      if (profiles.includes(profileId)) {
+        hasRole = true;
+      }
+      if (!hasRole) {
+        res.status(HttpStatusCode.NOT_FOUND).json({
+          message: "You dont have permission to this command",
+        });
+      }
       if (!userData) {
         res
           .status(HttpStatusCode.NOT_FOUND)
           .json({ message: "You dont have access" });
       }
-      // req.user = userData;
+      req.userId = userData.userId;
       next();
     } catch (err) {
       res

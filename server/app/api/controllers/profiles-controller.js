@@ -1,8 +1,8 @@
 const CreateAbl = require("../../abl/profiles/create");
-const ListAbl = require("../../abl/user/list");
-const DeleteAbl = require("../../abl/user/delete");
+const ListAbl = require("../../abl/profiles/list");
+const DeleteAbl = require("../../abl/profiles/delete");
 const GetAbl = require("../../abl/profiles/get");
-const UpdateAbl = require("../../abl/user/update");
+const UpdateAbl = require("../../abl/profiles/update");
 
 class ProfilesController {
   create(dtoIn) {

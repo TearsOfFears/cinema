@@ -15,9 +15,10 @@ class UserAuthAbl {
     this.jwt = jwtActions;
   }
   async registration(dtoIn) {
-    const { password, email, username } = dtoIn;
-    const passwordHash = this.passwordHashing.generatePassword(password);
-    let standardProflile = await this.daoProfiles.getStandardProfile({
+    const { password, email, username, phone } = dtoIn;
+    const password_hash = this.passwordHashing.generatePassword(password);
+
+    const standardProfile = await this.daoProfiles.getProfilesByName({
       name: "Standard",
     });
     let user, tokens;
@@ -25,11 +26,13 @@ class UserAuthAbl {
       user = await this.dao.create({
         email,
         username,
-        passwordHash,
-        profiles: [standardProflile],
+        password_hash,
+        phone,
+        profiles: [standardProfile],
       });
       tokens = this.jwt.createBothToken(user);
     } catch (e) {
+      console.log(e);
       if (e.name === "SequelizeUniqueConstraintError") {
         throw new UserErrorRegistration.UserIsExist(e);
       }
@@ -45,7 +48,7 @@ class UserAuthAbl {
     const { password, email } = dtoIn;
     let user;
     try {
-      user = await this.dao.getByEmail({ email });
+      user = await this.dao.getByEmail(email);
     } catch (e) {
       throw new UserErrorLogin.CannotLogin(e);
     }
@@ -55,7 +58,7 @@ class UserAuthAbl {
     const match = await this.passwordHashing.verifyPassword(password, user);
     if (match) {
       const tokens = this.jwt.createBothToken(user);
-      const { passwordHash, ...dtoOut } = user;
+      const { password_hash, ...dtoOut } = user;
       return {
         dtoOut,
         tokens,
@@ -73,10 +76,10 @@ class UserAuthAbl {
       throw new AuthError.CannotGetUser(e);
     }
     if (!user) {
-      throw new UserErrorLogin.UserNotFound();
+      throw new AuthError.UserNotFound();
     }
     const tokens = this.jwt.createBothToken(user);
-    const { passwordHash, ...dtoOut } = user;
+    const { password_hash, ...dtoOut } = user;
     return {
       dtoOut,
       tokens,

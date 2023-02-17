@@ -1,5 +1,4 @@
 const Model = require("../models/profiles-schema");
-const { STATES } = require("../abl/user/constants");
 
 class DaoProfiles {
   constructor() {
@@ -15,7 +14,6 @@ class DaoProfiles {
     const objects = await this.dao.findAll({
       limit,
       offset,
-      where: { state: STATES.ACTIVE },
       order: [[dtoIn.sort, dtoIn.key]],
     });
     return {
@@ -29,46 +27,47 @@ class DaoProfiles {
   async delete(id) {
     return await this.dao.destroy({
       where: {
-        id,
+        profile_id: id,
       },
     });
   }
   async get(id) {
     const doc = await this.dao.findOne({
       where: {
-        id,
+        profile_id: id,
       },
     });
     if (!doc) return null;
     return doc?.dataValues;
   }
-  async getStandardProfile(dtoIn) {
+  async getProfilesByName(dtoIn) {
     const doc = await this.dao.findOne({
-      where: {
-        dtoIn,
-      },
+      where: dtoIn,
     });
     if (!doc) return null;
-    return doc?.dataValues.id;
+    return doc?.dataValues.profile_id;
   }
   async getProfilesByIds({ profilesArrayId }) {
     const dtoOut = await this.dao.findAll({
       where: {
-        id: profilesArrayId,
+        profile_id: profilesArrayId,
       },
-      attributes: [`id`],
+      attributes: [`profile_id`],
       raw: true,
     });
     if (!dtoOut) return null;
     return dtoOut;
   }
   async update(dtoIn) {
-    const { id, username, profiles } = dtoIn;
-    const doc = await this.dao.update(dtoIn, {
-      where: { id },
-      returning: true,
-      plain: true,
-    });
+    const { id, name, description } = dtoIn;
+    const doc = await this.dao.update(
+      { name, description },
+      {
+        where: { profile_id: id },
+        returning: true,
+        raw: true,
+      }
+    );
     if (!doc) return null;
     return doc[1].dataValues;
   }

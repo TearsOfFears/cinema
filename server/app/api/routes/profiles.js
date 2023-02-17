@@ -29,6 +29,7 @@ router.get(
   "/get",
   getValidation(),
   validate,
+  auth,
   response(async (dtoIn) => ProfilesController.get(dtoIn))
 );
 router.patch(
