@@ -46,7 +46,7 @@ router.get(
   "/get",
   getValidation(),
   validate,
-  auth("Standard"),
+  // auth("Standard"),
   response(async (dtoIn) => UserController.get(dtoIn))
 );
 router.patch(

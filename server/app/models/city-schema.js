@@ -1,26 +1,20 @@
 const { sequelize } = require("./../db/connect");
 const { DataTypes, Model } = require("sequelize");
-class Genre extends Model {
-  static associate({ Post }) {
-    // this.hasMany(Post, { foreignKey: "userId", as: "posts" });
-  }
-  toJSON() {
-    return { ...this.get(), id: undefined };
-  }
-}
+class City extends Model {}
 
-const GenreSchema = Genre.init(
+City.init(
   {
-    genre_id: {
+    city_id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
       allowNull: false,
     },
-    genre: {
-      type: DataTypes.STRING(40),
-      unique: true,
-      require: true,
+    name: {
+      type: DataTypes.STRING(100),
+    },
+    zip_code: {
+      type: DataTypes.STRING(100),
     },
     state: {
       type: DataTypes.STRING(10),
@@ -30,11 +24,11 @@ const GenreSchema = Genre.init(
   },
   {
     sequelize,
-    tableName: "genre",
+    tableName: "city",
     timestamps: true,
     createdAt: true,
     updatedAt: true,
   }
 );
 
-module.exports = GenreSchema;
+module.exports = City;

@@ -1,5 +1,5 @@
 const DaoUser = require("../../dao/user-dao");
-const { STATES } = require("./constants");
+const { STATES } = require("../constants");
 const DaoProfiles = require("../../dao/profiles-dao");
 const Error = require("./../../api/errors/user-error").SetProfile;
 

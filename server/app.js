@@ -1,9 +1,11 @@
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
-const mongoose = require("mongoose");
-const usersRouter = require("./app/api/routes/users");
-const profilesRouter = require("./app/api/routes/profiles");
+// const mongoose = require("mongoose");
+const userRouter = require("./app/api/routes/users");
+const profileRouter = require("./app/api/routes/profiles");
+const cinemaRouter = require("./app/api/routes/cinema");
+const cityRouter = require("./app/api/routes/city");
 const { handleError } = require("./app/api/errors/helpers/error");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
@@ -31,8 +33,15 @@ app.use(cookieParser());
 
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/api/user", usersRouter);
-app.use("/api/profiles", profilesRouter);
+const routerArr = {
+  user: userRouter,
+  profile: profileRouter,
+  cinema: cinemaRouter,
+  city: cityRouter,
+};
+for (key in routerArr) {
+  app.use(`/api/${key}`, routerArr[key]);
+}
 app.use(handleError);
 app.listen(process.env.PORT, () => {
   console.log(`Server Running at port ${process.env.PORT}`);

@@ -1,5 +1,5 @@
 const Router = require("express").Router;
-const ProfilesController = require("../controllers/profiles-controller");
+const ProfilesController = require("../controllers/profile-controller");
 const response = require("./../middlewares/responseMiddle");
 const validate = require("./../middlewares/validate");
 const {

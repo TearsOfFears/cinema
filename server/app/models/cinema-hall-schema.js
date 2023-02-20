@@ -1,7 +1,7 @@
 const { sequelize } = require("./../db/connect");
 const { DataTypes, Model } = require("sequelize");
-const Profiles = require("./profiles-schema");
-class User extends Model {
+const CinemaSeat = require("./cinema-seat-schema");
+class CinemaHall extends Model {
   static associate({ Post }) {
     // this.hasMany(Post, { foreignKey: "userId", as: "posts" });
   }
@@ -10,49 +10,36 @@ class User extends Model {
   }
 }
 
-const UserSchema = User.init(
+CinemaHall.init(
   {
-    user_id: {
+    cinema_hall_id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
       allowNull: false,
     },
-    email: {
-      type: DataTypes.STRING(30),
-      unique: true,
-      require: true,
-    },
-    password_hash: {
+    name: {
       type: DataTypes.STRING(100),
     },
-    username: {
-      type: DataTypes.STRING(255),
-      allowNull: false,
-    },
-    profiles: {
-      type: DataTypes.ARRAY({
-        type: DataTypes.UUID,
-        references: {
-          model: Profiles,
-          key: "profiles_id",
-        },
-        allowNull: false,
-      }),
+    total_seats: {
+      type: DataTypes.INTEGER(),
     },
     state: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.STRING(10),
       validate: { isIn: [["active", "passive", "closed"]] },
       defaultValue: "active",
     },
   },
   {
     sequelize,
-    tableName: "user",
+    tableName: "cinema_hall",
     timestamps: true,
     createdAt: true,
     updatedAt: true,
   }
 );
-
-module.exports = UserSchema;
+CinemaHall.hasOne(CinemaSeat, {
+  foreignKey: "cinema_seat_id",
+  onDelete: "CASCADE",
+});
+module.exports = CinemaHall;

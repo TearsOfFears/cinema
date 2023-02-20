@@ -1,7 +1,7 @@
 const { sequelize } = require("./../db/connect");
 const { DataTypes, Model } = require("sequelize");
 const Profiles = require("./profiles-schema");
-class User extends Model {
+class Show extends Model {
   static associate({ Post }) {
     // this.hasMany(Post, { foreignKey: "userId", as: "posts" });
   }
@@ -10,27 +10,40 @@ class User extends Model {
   }
 }
 
-const UserSchema = User.init(
+const ShowSchema = Show.init(
   {
-    user_id: {
+    show_id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
       allowNull: false,
     },
-    email: {
-      type: DataTypes.STRING(30),
+    date: {
+      type: DataTypes.DATE(),
       unique: true,
       require: true,
     },
-    password_hash: {
-      type: DataTypes.STRING(100),
+    startTime: {
+      type: DataTypes.DATE(),
+      unique: true,
+      require: true,
     },
-    username: {
-      type: DataTypes.STRING(255),
-      allowNull: false,
+    endTime: {
+      type: DataTypes.DATE(),
+      unique: true,
+      require: true,
     },
-    profiles: {
+    movie_id: {
+      type: DataTypes.ARRAY({
+        type: DataTypes.UUID,
+        references: {
+          model: Profiles,
+          key: "profiles_id",
+        },
+        allowNull: false,
+      }),
+    },
+    cinema_hall_id: {
       type: DataTypes.ARRAY({
         type: DataTypes.UUID,
         references: {
@@ -41,18 +54,18 @@ const UserSchema = User.init(
       }),
     },
     state: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.STRING(10),
       validate: { isIn: [["active", "passive", "closed"]] },
       defaultValue: "active",
     },
   },
   {
     sequelize,
-    tableName: "user",
+    tableName: "show",
     timestamps: true,
     createdAt: true,
     updatedAt: true,
   }
 );
 
-module.exports = UserSchema;
+module.exports = ShowSchema;

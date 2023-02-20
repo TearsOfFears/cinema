@@ -1,7 +1,7 @@
 const { sequelize } = require("./../db/connect");
 const { DataTypes, Model } = require("sequelize");
 const Profiles = require("./profiles-schema");
-class Genre extends Model {
+class ShowSeat extends Model {
   static associate({ Post }) {
     // this.hasMany(Post, { foreignKey: "userId", as: "posts" });
   }
@@ -10,42 +10,41 @@ class Genre extends Model {
   }
 }
 
-const MoviesSchema = Genre.init(
+const ShowSeatSchema = ShowSeat.init(
   {
-    movie_id: {
+    show_seat_id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
       allowNull: false,
     },
-    title: {
-      type: DataTypes.STRING(1000),
-      unique: true,
-      require: true,
-    },
-    description: {
-      type: DataTypes.STRING(3000),
-    },
-    duration: {
-      type: DataTypes.STRING(50),
-    },
-    language: {
+    status: {
       type: DataTypes.ARRAY({
-        type: DataTypes.STRING(3),
+        type: DataTypes.INTEGER,
+        allowNull: true,
       }),
     },
-    releaseDate: {
-      type: DataTypes.DATE(),
+    price: { type: DataTypes.INTEGER() },
+    show_id: {
+      type: DataTypes.UUID,
+      references: {
+        model: Profiles,
+        key: "show_id",
+      },
+      allowNull: false,
     },
-    country: {
-      type: DataTypes.STRING(2),
+    cinema_seat_id: {
+      type: DataTypes.ARRAY({
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      }),
     },
-    genre: {
+    booking_id: {
       type: DataTypes.ARRAY({
         type: DataTypes.UUID,
         references: {
           model: Profiles,
-          key: "profiles_id",
+          key: "booking_id",
         },
         allowNull: false,
       }),
@@ -58,14 +57,14 @@ const MoviesSchema = Genre.init(
   },
   {
     sequelize,
-    tableName: "movies",
+    tableName: "show",
     timestamps: true,
     createdAt: true,
     updatedAt: true,
   }
 );
 
-module.exports = MoviesSchema;
+module.exports = ShowSeatSchema;
 
 // const UserSchema = new mongoose.Schema(
 //   {

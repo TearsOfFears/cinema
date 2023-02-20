@@ -159,10 +159,10 @@ const Create = {
     }
   },
   CannotCreate: class extends AppError {
-    constructor() {
+    constructor(message) {
       super(...arguments);
       this.code = `${Create.UC_CODE}cannotCreate`;
-      this.message = "Cannot create user something wrong with db";
+      this.message = message || "Cannot create user something wrong with db";
       this.statusCode = HttpStatusCode.CANNOT_GET;
     }
   },

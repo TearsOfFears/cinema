@@ -1,6 +1,8 @@
 const { sequelize } = require("./../db/connect");
 const { DataTypes, Model } = require("sequelize");
-class Genre extends Model {
+const City = require("./city-schema");
+const CinemaHall = require("./cinema-hall-schema");
+class Cinema extends Model {
   static associate({ Post }) {
     // this.hasMany(Post, { foreignKey: "userId", as: "posts" });
   }
@@ -9,18 +11,19 @@ class Genre extends Model {
   }
 }
 
-const GenreSchema = Genre.init(
+Cinema.init(
   {
-    genre_id: {
+    cinema_id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
       allowNull: false,
     },
-    genre: {
-      type: DataTypes.STRING(40),
-      unique: true,
-      require: true,
+    name: {
+      type: DataTypes.STRING(1000),
+    },
+    totalCinemaHalls: {
+      type: DataTypes.STRING(20),
     },
     state: {
       type: DataTypes.STRING(10),
@@ -30,11 +33,20 @@ const GenreSchema = Genre.init(
   },
   {
     sequelize,
-    tableName: "genre",
+    tableName: "cinema",
+    underscored: true,
     timestamps: true,
     createdAt: true,
     updatedAt: true,
   }
 );
+Cinema.belongsTo(City, {
+  foreignKey: { name: "city_id", field: "city_id" },
+  onDelete: "CASCADE",
+});
 
-module.exports = GenreSchema;
+Cinema.hasMany(CinemaHall, {
+  foreignKey: "cinema_hall_id",
+  onDelete: "CASCADE",
+});
+module.exports = Cinema;

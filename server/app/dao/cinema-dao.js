@@ -1,14 +1,13 @@
-const UserDao = require("../models/user-schema.js");
+const CinemaSchema = require("../models/cinema-schema");
 const { STATES } = require("../abl/constants");
 
-class DaoUsers {
+class CinemaDao {
   constructor() {
-    this.dao = UserDao;
+    this.dao = CinemaSchema;
   }
   async create(object) {
     const doc = await this.dao.create(object);
-    const { password_hash, ...dtoOut } = doc.dataValues;
-    return dtoOut;
+    return doc?.dataValues;
   }
   async list(dtoIn) {
     const offset = dtoIn.pageInfo.pageSize * dtoIn.pageInfo.pageIndex;
@@ -16,10 +15,10 @@ class DaoUsers {
     const objects = await this.dao.findAll({
       limit,
       offset,
-      where: { state: STATES.ACTIVE },
-      attributes: { exclude: ["password_hash"] },
+      where: { state: dtoIn.state },
       order: [[dtoIn.sort, dtoIn.key]],
     });
+    console.log("objects", objects);
     return {
       items: objects,
       pageInfo: {
@@ -38,7 +37,7 @@ class DaoUsers {
   async get(id) {
     const doc = await this.dao.findOne({
       where: {
-        user_id: id,
+        cinema_id: id,
       },
     });
     if (!doc) return null;
@@ -85,4 +84,4 @@ class DaoUsers {
   }
 }
 
-module.exports = new DaoUsers();
+module.exports = new CinemaDao();

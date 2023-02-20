@@ -14,7 +14,9 @@ module.exports = (rolesCheck) => async (req, res, next) => {
       const profileId = await DaoProfiles.getProfilesByName({
         name: rolesCheck,
       });
+      console.log("profileId", profileId);
       let hasRole = false;
+      console.log("profiles", profiles);
       if (profiles.includes(profileId)) {
         hasRole = true;
       }

@@ -1,8 +1,8 @@
-const Model = require("../models/profiles-schema");
+const ProfilesDao = require("../models/profiles-schema");
 
 class DaoProfiles {
   constructor() {
-    this.dao = Model;
+    this.dao = ProfilesDao;
   }
   async create(object) {
     const doc = await this.dao.create(object);

@@ -1,6 +1,6 @@
 const DaoUser = require("../../dao/user-dao");
 const DeleteError = require("./../../api/errors/user-error").Delete;
-const { STATES } = require("../constants");
+const { STATES } = require("./constants");
 class DeleteAbl {
   constructor() {
     this.dao = DaoUser;

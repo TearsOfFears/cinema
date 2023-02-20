@@ -1,14 +1,13 @@
-const UserDao = require("../models/user-schema.js");
+const CityShema = require("../models/city-schema");
 const { STATES } = require("../abl/constants");
 
-class DaoUsers {
+class CityDao {
   constructor() {
-    this.dao = UserDao;
+    this.dao = CityShema;
   }
   async create(object) {
     const doc = await this.dao.create(object);
-    const { password_hash, ...dtoOut } = doc.dataValues;
-    return dtoOut;
+    return doc?.dataValues;
   }
   async list(dtoIn) {
     const offset = dtoIn.pageInfo.pageSize * dtoIn.pageInfo.pageIndex;
@@ -17,7 +16,6 @@ class DaoUsers {
       limit,
       offset,
       where: { state: STATES.ACTIVE },
-      attributes: { exclude: ["password_hash"] },
       order: [[dtoIn.sort, dtoIn.key]],
     });
     return {
@@ -42,8 +40,7 @@ class DaoUsers {
       },
     });
     if (!doc) return null;
-    const { password_hash, ...dtoOut } = doc.dataValues;
-    return dtoOut;
+    return doc.dataValues;
   }
   async getByEmail(email) {
     const doc = await this.dao.findOne({
@@ -85,4 +82,4 @@ class DaoUsers {
   }
 }
 
-module.exports = new DaoUsers();
+module.exports = new CityDao();

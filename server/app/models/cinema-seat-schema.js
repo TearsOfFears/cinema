@@ -1,6 +1,7 @@
 const { sequelize } = require("./../db/connect");
 const { DataTypes, Model } = require("sequelize");
-class Genre extends Model {
+const Profiles = require("./profiles-schema");
+class CinemaSeat extends Model {
   static associate({ Post }) {
     // this.hasMany(Post, { foreignKey: "userId", as: "posts" });
   }
@@ -9,32 +10,29 @@ class Genre extends Model {
   }
 }
 
-const GenreSchema = Genre.init(
+CinemaSeat.init(
   {
-    genre_id: {
+    cinema_seat_id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
       allowNull: false,
     },
-    genre: {
-      type: DataTypes.STRING(40),
-      unique: true,
-      require: true,
+    seat_number: {
+      type: DataTypes.INTEGER(),
     },
     state: {
       type: DataTypes.STRING(10),
-      validate: { isIn: [["active", "passive", "closed"]] },
-      defaultValue: "active",
+      // validate: { isIn: [["normal", "delux", "double"]] },
     },
   },
   {
     sequelize,
-    tableName: "genre",
+    tableName: "cinema_seat",
     timestamps: true,
     createdAt: true,
     updatedAt: true,
   }
 );
 
-module.exports = GenreSchema;
+module.exports = CinemaSeat;
