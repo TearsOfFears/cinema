@@ -1,15 +1,7 @@
 const { sequelize } = require("./../db/connect");
 const { DataTypes, Model } = require("sequelize");
-const City = require("./city-schema");
 const CinemaHall = require("./cinema-hall-schema");
-class Cinema extends Model {
-  static associate({ Post }) {
-    // this.hasMany(Post, { foreignKey: "userId", as: "posts" });
-  }
-  toJSON() {
-    return { ...this.get(), id: undefined };
-  }
-}
+class Cinema extends Model {}
 
 Cinema.init(
   {
@@ -21,10 +13,16 @@ Cinema.init(
     },
     name: {
       type: DataTypes.STRING(1000),
+      unique: true,
     },
     totalCinemaHalls: {
-      type: DataTypes.STRING(20),
+      type: DataTypes.INTEGER,
     },
+    location: DataTypes.JSON({
+      country: { type: DataTypes.STRING(1000) },
+      state: DataTypes.STRING(30),
+      city: DataTypes.STRING(30),
+    }),
     state: {
       type: DataTypes.STRING(10),
       validate: { isIn: [["active", "passive", "closed"]] },
@@ -40,10 +38,6 @@ Cinema.init(
     updatedAt: true,
   }
 );
-Cinema.belongsTo(City, {
-  foreignKey: { name: "city_id", field: "city_id" },
-  onDelete: "CASCADE",
-});
 
 Cinema.hasMany(CinemaHall, {
   foreignKey: "cinema_hall_id",

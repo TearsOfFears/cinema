@@ -1,4 +1,4 @@
-const DaoProfiles = require("../../dao/profiles-dao");
+const DaoProfiles = require("../../dao/cinema-dao");
 const { STATES } = require("./constants");
 const Error = require("../../api/errors/profiles-error").Get;
 

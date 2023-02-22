@@ -20,7 +20,8 @@ const handleError = (error, req, res, next) => {
   if (error instanceof AppError) {
     return res.status(error.statusCode).json(error);
   } else {
-    return res.status(error.statusCode).json({
+    console.log("error", error);
+    return res.status(HttpStatusCode.INTERNAL_SERVER).json({
       errorCode: error.statusCode,
       message: error.message,
       code: error.code,

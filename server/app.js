@@ -1,11 +1,10 @@
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
-// const mongoose = require("mongoose");
 const userRouter = require("./app/api/routes/users");
 const profileRouter = require("./app/api/routes/profiles");
 const cinemaRouter = require("./app/api/routes/cinema");
-const cityRouter = require("./app/api/routes/city");
+const movieRouter = require("./app/api/routes/movie");
 const { handleError } = require("./app/api/errors/helpers/error");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
@@ -37,7 +36,7 @@ const routerArr = {
   user: userRouter,
   profile: profileRouter,
   cinema: cinemaRouter,
-  city: cityRouter,
+  movie: movieRouter,
 };
 for (key in routerArr) {
   app.use(`/api/${key}`, routerArr[key]);

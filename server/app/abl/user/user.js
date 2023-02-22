@@ -32,7 +32,6 @@ class UserAuthAbl {
       });
       tokens = this.jwt.createBothToken(user);
     } catch (e) {
-      console.log(e);
       if (e.name === "SequelizeUniqueConstraintError") {
         throw new UserErrorRegistration.UserIsExist(e);
       }

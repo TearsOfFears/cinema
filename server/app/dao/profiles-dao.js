@@ -19,6 +19,7 @@ class DaoProfiles {
     return {
       items: objects,
       pageInfo: {
+        pageTotal: objects.length,
         pageSize: dtoIn.pageInfo.pageSize,
         pageIndex: dtoIn.pageInfo.pageIndex,
       },

@@ -1,9 +1,9 @@
-const CityShema = require("../models/city-schema");
+const MovieSchema = require("../models/movie-schema");
 const { STATES } = require("../abl/constants");
 
-class CityDao {
+class MovieDao {
   constructor() {
-    this.dao = CityShema;
+    this.dao = MovieSchema;
   }
   async create(object) {
     const doc = await this.dao.create(object);
@@ -15,12 +15,13 @@ class CityDao {
     const objects = await this.dao.findAll({
       limit,
       offset,
-      where: { state: STATES.ACTIVE },
+      where: { state: dtoIn.state },
       order: [[dtoIn.sort, dtoIn.key]],
     });
     return {
       items: objects,
       pageInfo: {
+        pageTotal: objects.length,
         pageSize: dtoIn.pageInfo.pageSize,
         pageIndex: dtoIn.pageInfo.pageIndex,
       },
@@ -36,11 +37,12 @@ class CityDao {
   async get(id) {
     const doc = await this.dao.findOne({
       where: {
-        user_id: id,
+        cinema_id: id,
       },
     });
     if (!doc) return null;
-    return doc.dataValues;
+    const { password_hash, ...dtoOut } = doc.dataValues;
+    return dtoOut;
   }
   async getByEmail(email) {
     const doc = await this.dao.findOne({
@@ -82,4 +84,4 @@ class CityDao {
   }
 }
 
-module.exports = new CityDao();
+module.exports = new MovieDao();

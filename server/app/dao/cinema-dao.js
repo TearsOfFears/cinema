@@ -6,6 +6,7 @@ class CinemaDao {
     this.dao = CinemaSchema;
   }
   async create(object) {
+    const { location } = object;
     const doc = await this.dao.create(object);
     return doc?.dataValues;
   }
@@ -18,10 +19,10 @@ class CinemaDao {
       where: { state: dtoIn.state },
       order: [[dtoIn.sort, dtoIn.key]],
     });
-    console.log("objects", objects);
     return {
       items: objects,
       pageInfo: {
+        pageTotal: objects.length,
         pageSize: dtoIn.pageInfo.pageSize,
         pageIndex: dtoIn.pageInfo.pageIndex,
       },
