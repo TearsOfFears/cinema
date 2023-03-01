@@ -11,16 +11,22 @@ const {
   updateValidation,
 } = require("../validation/movie-validation");
 const auth = require("../middlewares/auth");
-const UserController = require("../controllers/users-controller");
 
 const router = new Router();
 
 router.post(
-  "/create",
+  "/createByManual",
   createValidation(),
   validate,
-  auth("Standard"),
-  response(async (dtoIn) => MovieController.create(dtoIn))
+  auth(["Standard"]),
+  response(async (dtoIn) => MovieController.createByManual(dtoIn))
+);
+router.post(
+  "/createByImdb",
+  createValidation(),
+  validate,
+  auth(["Standard"]),
+  response(async (dtoIn) => MovieController.createByImdb(dtoIn))
 );
 router.get(
   "/list",

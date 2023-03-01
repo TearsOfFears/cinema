@@ -5,30 +5,35 @@ const HTTPS_METHOD = {
   Delete: "DELETE",
 };
 class AppClient {
-  constructor(apiUri, apiKey) {
+  constructor(apiUri, apiKey, headers) {
     this.fetch = fetch;
     this.apiUri = apiUri;
     this.apiKey = apiKey;
+    this.header = headers;
   }
   async fetchInstance(uri, httpMethod, data) {
     const options = {
       method: httpMethod,
       headers: {
-        "X-CSCAPI-KEY": this.apiKey,
+        [this.header]: this.apiKey,
       },
     };
-    options.body ||= data;
+    if (options.method === HTTPS_METHOD.Get) {
+      uri += "?" + new URLSearchParams(data).toString();
+    } else {
+      options.body = JSON.stringify(data);
+    }
     return await this.fetch(uri, options);
   }
-  async post(data, useCase) {
+  async post(useCase, data) {
     const uri = `${this.apiUri}/${useCase}`;
-    const response = await this.fetchInstance(uri, HTTPS_METHOD.Get, data);
+    const response = await this.fetchInstance(uri, HTTPS_METHOD.Post, data);
     if (!response.ok) throw new Error(response.statusText);
     return await response.json();
   }
-  async get(useCase) {
+  async get(useCase, data) {
     const uri = `${this.apiUri}/${useCase}`;
-    const response = await this.fetchInstance(uri, HTTPS_METHOD.Get);
+    const response = await this.fetchInstance(uri, HTTPS_METHOD.Get, data);
     if (!response.ok) throw new Error(response.statusText);
     return await response.json();
   }

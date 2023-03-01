@@ -5,8 +5,11 @@ const GetAbl = require("../../abl/movie/get");
 const UpdateAbl = require("../../abl/movie/update");
 const SetStateAbl = require("../../abl/movie/set-state");
 class MovieController {
-  create(dtoIn) {
-    return CreateAbl.create(dtoIn);
+  createByManual(dtoIn) {
+    return CreateAbl.createByManual(dtoIn);
+  }
+  createByImdb(dtoIn) {
+    return CreateAbl.createByImdb(dtoIn);
   }
   list(dtoIn) {
     return ListAbl.list(dtoIn);
