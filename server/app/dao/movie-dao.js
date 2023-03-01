@@ -1,5 +1,4 @@
 const MovieSchema = require("../models/movie-schema");
-const { STATES } = require("../abl/constants");
 
 class MovieDao {
   constructor() {
@@ -30,24 +29,14 @@ class MovieDao {
   async delete(id) {
     return await this.dao.destroy({
       where: {
-        user_id: id,
+        movie_id: id,
       },
     });
   }
   async get(id) {
     const doc = await this.dao.findOne({
       where: {
-        cinema_id: id,
-      },
-    });
-    if (!doc) return null;
-    const { password_hash, ...dtoOut } = doc.dataValues;
-    return dtoOut;
-  }
-  async getByEmail(email) {
-    const doc = await this.dao.findOne({
-      where: {
-        email,
+        movie_id: id,
       },
     });
     if (!doc) return null;
@@ -57,16 +46,7 @@ class MovieDao {
     const { id, username } = dtoIn;
     const doc = await this.dao.update(
       { username },
-      { where: { user_id: id }, returning: true, plain: true }
-    );
-    if (!doc) return null;
-    const { password_hash, ...dtoOut } = doc[1].dataValues;
-    return dtoOut;
-  }
-  async updateProfiles(id, dtoIn) {
-    const doc = await this.dao.update(
-      { profiles: dtoIn.profilesArrayId },
-      { where: { user_id: id }, returning: true, plain: true }
+      { where: { movie_id: id }, returning: true, plain: true }
     );
     if (!doc) return null;
     const { password_hash, ...dtoOut } = doc[1].dataValues;
@@ -76,11 +56,10 @@ class MovieDao {
     const { id, state } = dtoIn;
     const doc = await this.dao.update(
       { state },
-      { where: { user_id: id }, returning: true, plain: true }
+      { where: { movie_id: id }, returning: true, plain: true }
     );
     if (!doc) return null;
-    const { password_hash, ...dtoOut } = doc[1].dataValues;
-    return dtoOut;
+    return doc[1].dataValues;
   }
 }
 

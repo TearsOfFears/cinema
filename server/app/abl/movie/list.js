@@ -1,6 +1,6 @@
-const DaoCinema = require("../../dao/cinema-dao");
+const DaoCinema = require("../../dao/movie-dao");
 const { STATES } = require("../constants");
-const Error = require("../../api/errors/cinema-error").Get;
+const Error = require("../../api/errors/movie-error").Get;
 
 class ListAbl {
   constructor() {
@@ -15,8 +15,7 @@ class ListAbl {
     try {
       users = await this.dao.list(dtoIn);
     } catch (e) {
-      console.log("e", e);
-      throw new Error.ProfileIsNotExist();
+      throw new Error.CannotGetList(e);
     }
 
     return users;

@@ -1,20 +1,23 @@
 const DaoMovie = require("../../dao/movie-dao");
-const Error = require("./../../api/errors/movie-error").Create;
-class CreateAbl {
+const Errors = require("./../../api/errors/movie-error").Create;
+const Movie = require("./movie");
+const { STATES, ERRORS_CODES } = require("./constants");
+class CreateAbl extends Movie {
   constructor() {
+    super();
     this.dao = DaoMovie;
   }
   async create(dtoIn) {
     let dtoOut;
-    dtoIn.state = "active";
+    dtoIn.state = STATES.ACTIVE;
+    await super.getCountry(dtoIn, Errors);
     try {
       dtoOut = await this.dao.create(dtoIn);
     } catch (e) {
-      console.log("e", e);
-      if (e.name === "SequelizeUniqueConstraintError") {
-        throw new Error.CinemaNameAlreadyExist();
+      if (e.name === ERRORS_CODES.DUPLICATE) {
+        throw new Errors.MovieNameAlreadyExist();
       }
-      throw new Error.CannotCreate(e);
+      throw new Errors.CannotCreate(e);
     }
     return dtoOut;
   }

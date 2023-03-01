@@ -4,4 +4,7 @@ module.exports = {
     CLOSED: "closed",
     PASSIVE: "passive",
   },
+  ERRORS_CODES: {
+    DUPLICATE: "SequelizeUniqueConstraintError",
+  },
 };

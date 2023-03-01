@@ -4,10 +4,9 @@ const createValidation = () => [
   body("title").exists(),
   body("description").exists().isString(),
   body("duration").exists(),
-  body("language").isArray(),
   body("language.*").isString(),
   body("releaseDate").exists().isDate({ format: "YYYY-MM-DD" }),
-  body("country").isString(),
+  body("country.*").isString(),
   body("genre").isArray(),
   body("genre.*").isString(),
   body("state").isString(),
@@ -23,10 +22,18 @@ const listValidation = () => [
 ];
 const updateValidation = () => [
   body("id").isUUID(4),
-  body("name").exists(),
-  body("description")
-    .isLength({ min: 5 })
-    .withMessage("Need at least 5 characters"),
+  body("title").exists(),
+  body("description").exists().isString(),
+  body("duration").exists(),
+  body("language.*").isString(),
+  body("releaseDate").exists().isDate({ format: "YYYY-MM-DD" }),
+  body("country.*").isString(),
+  body("genre").isArray(),
+  body("genre.*").isString(),
+];
+const setStateValidation = () => [
+  body("id").isUUID(4),
+  body("state").exists().isIn(["active", "passive", "closed"]),
 ];
 module.exports = {
   createValidation,
@@ -34,4 +41,5 @@ module.exports = {
   getValidation,
   updateValidation,
   listValidation,
+  setStateValidation,
 };

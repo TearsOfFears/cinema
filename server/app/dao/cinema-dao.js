@@ -1,5 +1,4 @@
 const CinemaSchema = require("../models/cinema-schema");
-const { STATES } = require("../abl/constants");
 
 class CinemaDao {
   constructor() {
@@ -39,16 +38,6 @@ class CinemaDao {
     const doc = await this.dao.findOne({
       where: {
         cinema_id: id,
-      },
-    });
-    if (!doc) return null;
-    const { password_hash, ...dtoOut } = doc.dataValues;
-    return dtoOut;
-  }
-  async getByEmail(email) {
-    const doc = await this.dao.findOne({
-      where: {
-        email,
       },
     });
     if (!doc) return null;

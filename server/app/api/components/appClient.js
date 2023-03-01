@@ -23,11 +23,13 @@ class AppClient {
   async post(data, useCase) {
     const uri = `${this.apiUri}/${useCase}`;
     const response = await this.fetchInstance(uri, HTTPS_METHOD.Get, data);
+    if (!response.ok) throw new Error(response.statusText);
     return await response.json();
   }
   async get(useCase) {
     const uri = `${this.apiUri}/${useCase}`;
     const response = await this.fetchInstance(uri, HTTPS_METHOD.Get);
+    if (!response.ok) throw new Error(response.statusText);
     return await response.json();
   }
 }

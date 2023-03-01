@@ -29,12 +29,12 @@ const Delete = {
   },
 };
 const Get = {
-  UC_CODE: `${AppError.getCode()}profiles/get/`,
-  ProfileIsNotExist: class extends AppError {
+  UC_CODE: `${AppError.getCode()}cinema/get/`,
+  CinematIsNotExist: class extends AppError {
     constructor() {
       super(...arguments);
-      this.code = `${Get.UC_CODE}profileIsNotExist`;
-      this.message = "Profile not exist";
+      this.code = `${Get.UC_CODE}cinematIsNotExist`;
+      this.message = "Cinema not exist";
       this.statusCode = HttpStatusCode.CANNOT_GET;
     }
   },
@@ -104,8 +104,8 @@ const Create = {
   CinemaNameAlreadyExist: class extends AppError {
     constructor() {
       super(...arguments);
-      this.code = `${Create.UC_CODE}nameAlreadyExist`;
-      this.message = "Cinema with this name already exist";
+      this.code = `${Create.UC_CODE}cinemaNameAlreadyExist`;
+      this.message = "Movie with this name already exist";
       this.statusCode = HttpStatusCode.BAD_REQUEST;
     }
   },

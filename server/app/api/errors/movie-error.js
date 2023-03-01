@@ -2,49 +2,68 @@
 const { AppError, HttpStatusCode } = require("./helpers/error");
 
 const Delete = {
-  UC_CODE: `${AppError.getCode()}profiles/delete/`,
-  UserIsNotExist: class extends AppError {
+  UC_CODE: `${AppError.getCode()}movie/delete/`,
+  MovieIsNotExist: class extends AppError {
     constructor() {
       super(...arguments);
-      this.code = `${Delete.UC_CODE}userIsNotExist`;
-      this.message = "User not exist";
+      this.code = `${Delete.UC_CODE}movieIsNotExist`;
+      this.message = "Movie is not exist";
       this.statusCode = HttpStatusCode.NOT_FOUND;
     }
   },
-  UserIsActiveState: class extends AppError {
+  MovieIsInActiveState: class extends AppError {
     constructor() {
       super(...arguments);
-      this.code = `${Delete.UC_CODE}UserIsActiveState`;
-      this.message = "Cannot delete user in active state";
+      this.code = `${Delete.UC_CODE}MovieIsInActiveState`;
+      this.message = "Cannot delete movie in active state";
       this.statusCode = HttpStatusCode.BAD_REQUEST;
     }
   },
   CannotDelete: class extends AppError {
-    constructor() {
+    constructor(message) {
       super(...arguments);
       this.code = `${Delete.UC_CODE}cannotDelete`;
-      this.message = "Cannot delete user";
+      this.message = message || "Cannot delete user";
       this.statusCode = HttpStatusCode.BAD_REQUEST;
     }
   },
 };
 const Get = {
-  UC_CODE: `${AppError.getCode()}profiles/get/`,
-  ProfileIsNotExist: class extends AppError {
+  UC_CODE: `${AppError.getCode()}movie/get/`,
+  MovieDoesNotExist: class extends AppError {
     constructor() {
       super(...arguments);
-      this.code = `${Get.UC_CODE}profileIsNotExist`;
-      this.message = "Profile not exist";
+      this.code = `${Get.UC_CODE}movieDoesNotExist`;
+      this.message = "Movie does not exist";
+      this.statusCode = HttpStatusCode.CANNOT_GET;
+    }
+  },
+  MovieIsNotExist: class extends AppError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Get.UC_CODE}movieIsNotExist`;
+      this.message = "Movie does not exist";
+      this.statusCode = HttpStatusCode.CANNOT_GET;
+    }
+  },
+};
+const List = {
+  UC_CODE: `${AppError.getCode()}movie/list/`,
+  CannotGetList: class extends AppError {
+    constructor(message) {
+      super(...arguments);
+      this.code = `${List.UC_CODE}cannotGetList`;
+      this.message = message || "Cannot get list of movies";
       this.statusCode = HttpStatusCode.CANNOT_GET;
     }
   },
 };
 const Update = {
-  UC_CODE: `${AppError.getCode()}profiles/update/`,
+  UC_CODE: `${AppError.getCode()}movie/update/`,
   UserIsNotExist: class extends AppError {
     constructor() {
       super(...arguments);
-      this.code = `${Update.UC_CODE}userIsNotExist`;
+      this.code = `${Update.UC_CODE}movieIsNotExist`;
       this.message = "User not exist";
       this.statusCode = HttpStatusCode.CANNOT_GET;
     }
@@ -53,7 +72,7 @@ const Update = {
     constructor() {
       super(...arguments);
       this.code = `${Update.UC_CODE}cannotUpdate`;
-      this.message = "User cannot update";
+      this.message = "Movie cannot update";
       this.statusCode = HttpStatusCode.CANNOT_GET;
     }
   },
@@ -61,13 +80,41 @@ const Update = {
     constructor() {
       super(...arguments);
       this.code = `${Update.UC_CODE}userIsNotActiveState`;
-      this.message = "User is not in active state";
+      this.message = "Movie is not in active state";
       this.statusCode = HttpStatusCode.CANNOT_GET;
     }
   },
 };
+const SetState = {
+  UC_CODE: `${AppError.getCode()}movie/setState/`,
+  MovieIsNotExist: class extends AppError {
+    constructor() {
+      super(...arguments);
+      this.code = `${SetState.UC_CODE}userIsNotExist`;
+      this.message = "Movie not exist";
+      this.statusCode = HttpStatusCode.CANNOT_GET;
+    }
+  },
+  CannotUpdate: class extends AppError {
+    constructor(message) {
+      super(...arguments);
+      this.code = `${SetState.UC_CODE}cannotUpdate`;
+      this.message = message || "Movie cannot update";
+      this.statusCode = HttpStatusCode.CANNOT_GET;
+    }
+  },
+  MovieIsInActiveState: class extends AppError {
+    constructor() {
+      super(...arguments);
+      this.code = `${SetState.UC_CODE}movieIsInActiveState`;
+      this.message = "Movie is in active state";
+      this.statusCode = HttpStatusCode.CANNOT_GET;
+    }
+  },
+};
+
 const Create = {
-  UC_CODE: `${AppError.getCode()}cinema/create/`,
+  UC_CODE: `${AppError.getCode()}movie/create/`,
   CannotUpdate: class extends AppError {
     constructor() {
       super(...arguments);
@@ -88,24 +135,23 @@ const Create = {
     constructor(message) {
       super(...arguments);
       this.code = `${Create.UC_CODE}cannotGetCountry`;
-      this.message =
-        message || "Cannot create cinema something wrong with country api";
+      this.message = message || "Cannot create movie check country code";
       this.statusCode = HttpStatusCode.CANNOT_GET;
     }
   },
-  CityNotFound: class extends AppError {
+  CountryNotFound: class extends AppError {
     constructor() {
       super(...arguments);
-      this.code = `${Create.UC_CODE}cityNotFound`;
-      this.message = "City with this name in this country or state not found";
+      this.code = `${Create.UC_CODE}countryNotFound`;
+      this.message = "One of the Country with code does not exist";
       this.statusCode = HttpStatusCode.CANNOT_GET;
     }
   },
-  CinemaNameAlreadyExist: class extends AppError {
+  MovieNameAlreadyExist: class extends AppError {
     constructor() {
       super(...arguments);
-      this.code = `${Create.UC_CODE}nameAlreadyExist`;
-      this.message = "Cinema with this name already exist";
+      this.code = `${Create.UC_CODE}MovieNameAlreadyExist`;
+      this.message = "Movie with this name already exist";
       this.statusCode = HttpStatusCode.BAD_REQUEST;
     }
   },
@@ -115,4 +161,5 @@ module.exports = {
   Get,
   Update,
   Create,
+  SetState,
 };

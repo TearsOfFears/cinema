@@ -3,7 +3,7 @@ const ListAbl = require("../../abl/movie/list");
 const DeleteAbl = require("../../abl/movie/delete");
 const GetAbl = require("../../abl/movie/get");
 const UpdateAbl = require("../../abl/movie/update");
-
+const SetStateAbl = require("../../abl/movie/set-state");
 class MovieController {
   create(dtoIn) {
     return CreateAbl.create(dtoIn);
@@ -19,6 +19,9 @@ class MovieController {
   }
   update(dtoIn) {
     return UpdateAbl.update(dtoIn);
+  }
+  setState(dtoIn) {
+    return SetStateAbl.setState(dtoIn);
   }
 }
 

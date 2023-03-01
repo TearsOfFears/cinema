@@ -10,18 +10,18 @@ class CountryApi extends AppClient {
     super(process.env.COUNTRY_API_URI, process.env.COUNTRY_API_KEY);
     this.errors = errors;
   }
-  async getCountryByCode({ country, state }) {
+  async getCityByCode({ country, state }) {
     try {
       return await super.get(`countries/${country}/states/${state}/cities`);
     } catch (e) {
       throw new this.errors.CannotGetCountry(e);
     }
   }
-  async getStateByCode(data) {
+  async getCountryByCode({ country }) {
     try {
-      return await super.get(data, USE_CASES.Countries);
+      return await super.get(`countries/${country}`);
     } catch (e) {
-      throw new this.errors.CannotGetCountry(e);
+      throw new this.errors.CountryNotFound(e);
     }
   }
 }

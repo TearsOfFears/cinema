@@ -29,7 +29,9 @@ Movie.init(
       type: DataTypes.DATE(),
     },
     country: {
-      type: DataTypes.STRING(10),
+      type: DataTypes.ARRAY({
+        type: DataTypes.STRING(10),
+      }),
     },
     genre: {
       type: DataTypes.ARRAY({

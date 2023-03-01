@@ -7,8 +7,11 @@ const {
   deleteValidation,
   getValidation,
   listValidation,
+  setStateValidation,
+  updateValidation,
 } = require("../validation/movie-validation");
 const auth = require("../middlewares/auth");
+const UserController = require("../controllers/users-controller");
 
 const router = new Router();
 
@@ -37,7 +40,20 @@ router.delete(
   deleteValidation(),
   validate,
   auth("Standard"),
-  response(async (dtoIn) => UserController.delete(dtoIn))
+  response(async (dtoIn) => MovieController.delete(dtoIn))
 );
-
+router.patch(
+  "/setState",
+  setStateValidation(),
+  validate,
+  auth("Standard"),
+  response(async (dtoIn) => MovieController.setState(dtoIn))
+);
+router.patch(
+  "/setState",
+  updateValidation(),
+  validate,
+  auth("Standard"),
+  response(async (dtoIn) => MovieController.update(dtoIn))
+);
 module.exports = router;
