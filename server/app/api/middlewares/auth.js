@@ -11,15 +11,23 @@ module.exports = (rolesCheck) => async (req, res, next) => {
     try {
       const userData = jwts.verifyAccessToken(accessToken);
       const { profiles } = userData;
-      const profileId = await DaoProfiles.getProfilesByName({
-        name: rolesCheck,
-      });
-      console.log("profileId", profileId);
-      let hasRole = false;
-      console.log("profiles", profiles);
-      if (profiles.includes(profileId)) {
-        hasRole = true;
+      let profilesArrayIs;
+      try {
+        profilesArrayIs = await Promise.all(
+          rolesCheck.map(
+            async (el) =>
+              await DaoProfiles.getProfilesByName({
+                name: el,
+              })
+          )
+        );
+      } catch (e) {
+        if (e) return (profilesArrayIs = []);
       }
+      let hasRole = false;
+      profiles.forEach((role) => {
+        if (profilesArrayIs.includes(role)) hasRole = true;
+      });
       if (!hasRole) {
         res.status(HttpStatusCode.NOT_FOUND).json({
           message: "You dont have permission to this command",

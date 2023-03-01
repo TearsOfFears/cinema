@@ -25,7 +25,7 @@ router.post(
 router.get(
   "/list",
   listValidation(),
-  auth("Standard"),
+  auth(["Standard"]),
   response(async (dtoIn) => MovieController.list(dtoIn))
 );
 router.get(
