@@ -5,6 +5,7 @@ const userRouter = require("./app/api/routes/users");
 const profileRouter = require("./app/api/routes/profiles");
 const cinemaRouter = require("./app/api/routes/cinema");
 const movieRouter = require("./app/api/routes/movie");
+const multer = require("multer");
 const { handleError } = require("./app/api/errors/helpers/error");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
@@ -19,17 +20,44 @@ const accessLogStream = fs.createWriteStream(
 );
 app.use(logger("tiny", { stream: accessLogStream }));
 startDB();
-// mongoose
-//   .connect(process.env.MONGO)
-//   .then(() => {
-//     console.log("MongoDB start connect...");
-//   })
-//   .catch((err) => console.log("MongoDB something wrong...", err))
-//   .finally(() => console.log("MongoDB is connected!!!"));
+
+app.get("/", express.static(path.join(__dirname, "./images")));
+
+const upload = multer({
+  storage: multer.diskStorage({}),
+  fileFilter: (req, file, cb) => {
+    let ext = path.extname(file.originalname);
+    if (ext !== ".jpg" && ext !== ".jpeg" && ext !== ".png") {
+      cb(new Error("File type is not supported"), false);
+      return;
+    }
+    cb(null, true);
+  },
+});
+
+app.post("/upload", upload.single("file"), (req, res) => {
+  const tempPath = req.file.path;
+  const targetPath = path.join(__dirname, "./uploads/image.png");
+  if (path.extname(req.file.originalname).toLowerCase() === ".png") {
+    fs.rename(tempPath, targetPath, (err) => {
+      if (err) return handleError(err, res);
+
+      res.status(200).contentType("text/plain").end("File uploaded!");
+    });
+  } else {
+    fs.unlink(tempPath, (err) => {
+      if (err) return handleError(err, res);
+
+      res
+        .status(403)
+        .contentType("text/plain")
+        .end("Only .png files are allowed!");
+    });
+  }
+});
 
 app.use(express.json());
 app.use(cookieParser());
-
 app.use(express.urlencoded({ extended: false }));
 
 const routerArr = {

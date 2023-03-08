@@ -14,19 +14,25 @@ Movie.init(
       unique: true,
       require: true,
     },
-    description: {
+    plotLong: {
       type: DataTypes.STRING(3000),
     },
+    plotShort: {
+      type: DataTypes.STRING(30000),
+    },
     duration: {
-      type: DataTypes.STRING(50),
+      type: DataTypes.INTEGER(5),
     },
     language: {
       type: DataTypes.ARRAY({
         type: DataTypes.STRING(10),
       }),
     },
-    releaseDate: {
+    year: {
       type: DataTypes.DATE(),
+    },
+    poster: {
+      type: DataTypes.STRING(),
     },
     country: {
       type: DataTypes.ARRAY({

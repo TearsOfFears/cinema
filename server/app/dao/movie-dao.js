@@ -5,6 +5,7 @@ class MovieDao {
     this.dao = MovieSchema;
   }
   async create(object) {
+    console.log(object);
     const doc = await this.dao.create(object);
     return doc?.dataValues;
   }

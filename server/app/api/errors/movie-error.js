@@ -156,10 +156,62 @@ const Create = {
     }
   },
 };
+const CreateByImdb = {
+  UC_CODE: `${AppError.getCode()}movie/createByImdb/`,
+  CannotUpdate: class extends AppError {
+    constructor() {
+      super(...arguments);
+      this.code = `${CreateByImdb.UC_CODE}cannotCreate`;
+      this.message = "User cannot create";
+      this.statusCode = HttpStatusCode.CANNOT_GET;
+    }
+  },
+  CannotCreate: class extends AppError {
+    constructor(message) {
+      super(...arguments);
+      this.code = `${CreateByImdb.UC_CODE}cannotCreate`;
+      this.message = message || "Cannot create cinema something wrong with db";
+      this.statusCode = HttpStatusCode.CANNOT_GET;
+    }
+  },
+  CannotGetCountry: class extends AppError {
+    constructor(message) {
+      super(...arguments);
+      this.code = `${CreateByImdb.UC_CODE}cannotGetCountry`;
+      this.message = message || "Cannot create movie check country code";
+      this.statusCode = HttpStatusCode.CANNOT_GET;
+    }
+  },
+  CountryNotFound: class extends AppError {
+    constructor(message) {
+      super(...arguments);
+      this.code = `${CreateByImdb.UC_CODE}countryNotFound`;
+      this.message = message || "One of the Country with code does not exist";
+      this.statusCode = HttpStatusCode.CANNOT_GET;
+    }
+  },
+  MovieNameAlreadyExist: class extends AppError {
+    constructor() {
+      super(...arguments);
+      this.code = `${CreateByImdb.UC_CODE}movieNameAlreadyExist`;
+      this.message = "Movie with this name already exist";
+      this.statusCode = HttpStatusCode.BAD_REQUEST;
+    }
+  },
+  SomethingWrongWithImdbApi: class extends AppError {
+    constructor(message) {
+      super(...arguments);
+      this.code = `${CreateByImdb.UC_CODE}somethingWrongWithImdbApi`;
+      this.message = message || "Something wrong happened with IMDB API";
+      this.statusCode = HttpStatusCode.BAD_REQUEST;
+    }
+  },
+};
 module.exports = {
   Delete,
   Get,
   Update,
   Create,
   SetState,
+  CreateByImdb,
 };

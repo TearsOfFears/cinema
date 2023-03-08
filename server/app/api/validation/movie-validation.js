@@ -2,15 +2,17 @@ const { body } = require("express-validator");
 
 const createValidation = () => [
   body("title").exists(),
-  body("description").exists().isString(),
-  body("duration").exists(),
+  body("plotShort").isString().exists(),
+  body("plotLong").isString().exists(),
+  body("duration").isNumeric().isLength(3).exists(),
   body("language.*").isString(),
-  body("releaseDate").exists().isDate({ format: "YYYY-MM-DD" }),
+  body("year").exists().isDate(),
   body("country.*").isString(),
   body("genre").isArray(),
   body("genre.*").isString(),
   body("state").isString(),
 ];
+const createByImdbValidation = () => [body("imdbLink").isURL().exists()];
 const deleteValidation = () => [body("id").isUUID(4)];
 const getValidation = () => [body("id").isUUID(4)];
 const listValidation = () => [
@@ -23,10 +25,11 @@ const listValidation = () => [
 const updateValidation = () => [
   body("id").isUUID(4),
   body("title").exists(),
-  body("description").exists().isString(),
-  body("duration").exists(),
+  body("plotShort").isString().exists(),
+  body("plotLong").isString().exists(),
+  body("duration").isNumeric().isLength(3).exists(),
   body("language.*").isString(),
-  body("releaseDate").exists().isDate({ format: "YYYY-MM-DD" }),
+  body("releaseDate").exists().isDate({ format: "YYYY" }),
   body("country.*").isString(),
   body("genre").isArray(),
   body("genre.*").isString(),
@@ -37,6 +40,7 @@ const setStateValidation = () => [
 ];
 module.exports = {
   createValidation,
+  createByImdbValidation,
   deleteValidation,
   getValidation,
   updateValidation,

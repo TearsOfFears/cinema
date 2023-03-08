@@ -8,6 +8,7 @@ const {
   getValidation,
   listValidation,
   setStateValidation,
+  createByImdbValidation,
   updateValidation,
 } = require("../validation/movie-validation");
 const auth = require("../middlewares/auth");
@@ -23,7 +24,7 @@ router.post(
 );
 router.post(
   "/createByImdb",
-  createValidation(),
+  createByImdbValidation(),
   validate,
   auth(["Standard"]),
   response(async (dtoIn) => MovieController.createByImdb(dtoIn))
