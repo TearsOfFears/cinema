@@ -17,11 +17,15 @@ Cinema.init(
     },
     totalCinemaHalls: {
       type: DataTypes.INTEGER,
+      allowNull: false,
+      require: true,
     },
     location: DataTypes.JSON({
       country: { type: DataTypes.STRING(1000) },
       state: DataTypes.STRING(30),
       city: DataTypes.STRING(30),
+      allowNull: false,
+      require: true,
     }),
     state: {
       type: DataTypes.STRING(10),
@@ -41,6 +45,10 @@ Cinema.init(
 
 Cinema.hasMany(CinemaHall, {
   foreignKey: "cinema_hall_id",
+  onDelete: "CASCADE",
+});
+CinemaHall.belongsTo(Cinema, {
+  foreignKey: "cinema_id",
   onDelete: "CASCADE",
 });
 module.exports = Cinema;

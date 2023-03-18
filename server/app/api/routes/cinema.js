@@ -17,28 +17,28 @@ router.post(
   "/create",
   createValidation(),
   validate,
-  auth("Standard"),
+  auth(["Standard"]),
   response(async (dtoIn) => CinemaController.create(dtoIn))
 );
 router.get(
   "/list",
   listValidation(),
-  auth("Standard"),
+  auth(["Standard"]),
   response(async (dtoIn) => CinemaController.list(dtoIn))
 );
 router.get(
   "/get",
   getValidation(),
   validate,
-  auth("Standard"),
+  auth(["Standard"]),
   response(async (dtoIn) => CinemaController.get(dtoIn))
 );
 router.delete(
   "/delete",
   deleteValidation(),
   validate,
-  auth("Standard"),
-  response(async (dtoIn) => UserController.delete(dtoIn))
+  auth(["Standard"]),
+  response(async (dtoIn) => CinemaController.delete(dtoIn))
 );
 
 module.exports = router;

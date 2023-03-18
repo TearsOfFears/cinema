@@ -1,14 +1,7 @@
 const { sequelize } = require("./../db/connect");
 const { DataTypes, Model } = require("sequelize");
 const CinemaSeat = require("./cinema-seat-schema");
-class CinemaHall extends Model {
-  static associate({ Post }) {
-    // this.hasMany(Post, { foreignKey: "userId", as: "posts" });
-  }
-  toJSON() {
-    return { ...this.get(), id: undefined };
-  }
-}
+class CinemaHall extends Model {}
 
 CinemaHall.init(
   {
@@ -19,7 +12,7 @@ CinemaHall.init(
       allowNull: false,
     },
     name: {
-      type: DataTypes.STRING(100),
+      type: DataTypes.STRING(20),
     },
     total_seats: {
       type: DataTypes.INTEGER(),
@@ -38,8 +31,8 @@ CinemaHall.init(
     updatedAt: true,
   }
 );
-CinemaHall.hasOne(CinemaSeat, {
-  foreignKey: "cinema_seat_id",
-  onDelete: "CASCADE",
-});
+// CinemaHall.hasOne(CinemaSeat, {
+//   foreignKey: "cinema_seat_id",
+//   onDelete: "CASCADE",
+// });
 module.exports = CinemaHall;

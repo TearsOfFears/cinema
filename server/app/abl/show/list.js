@@ -1,24 +1,23 @@
-const DaoMovie = require("../../dao/movie-dao");
 const { STATES } = require("../constants");
-const Error = require("../../api/errors/movie-error").List;
-
-class ListAbl {
+const Error = require("../../api/errors/show-error").List;
+const Show = require("./show");
+class ListAbl extends Show {
   constructor() {
-    this.dao = DaoMovie;
+    super();
   }
   async list(dtoIn) {
     dtoIn.pageInfo ||= {};
     dtoIn.pageInfo.pageSize ||= 10;
     dtoIn.pageInfo.pageIndex ||= 0;
     dtoIn.state ||= STATES.PASSIVE;
-    let movies;
+    let shows;
     try {
-      movies = await this.dao.list(dtoIn);
+      shows = await this.dao.list(dtoIn);
     } catch (e) {
-      throw new Error.CannotGetList(e);
+      throw new Error.CannotList(e);
     }
 
-    return movies;
+    return shows;
   }
 }
 module.exports = new ListAbl();

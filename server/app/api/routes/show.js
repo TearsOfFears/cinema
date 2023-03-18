@@ -1,10 +1,8 @@
 const Router = require("express").Router;
-const UserController = require("../controllers/users-controller");
+const ShowController = require("../controllers/show-controller");
 const response = require("./../middlewares/responseMiddle");
 const validate = require("./../middlewares/validate");
 const {
-  registrationValidation,
-  loginValidation,
   deleteValidation,
   getValidation,
   updateValidation,
@@ -16,20 +14,8 @@ const auth = require("../middlewares/auth");
 const router = new Router();
 
 router.post(
-  "/registration",
-  registrationValidation(),
-  validate,
-  response(async (dtoIn) => UserController.registration(dtoIn))
-);
-router.post(
-  "/login",
-  loginValidation(),
-  validate,
-  response(async (dtoIn) => UserController.login(dtoIn))
-);
-router.post(
-  "/refresh",
-  response(async (dtoIn) => UserController.refresh(dtoIn))
+  "/create",
+  response(async (dtoIn) => ShowController.create(dtoIn))
 );
 // router.get(
 //   "/auth",
@@ -40,42 +26,42 @@ router.get(
   "/list",
   listValidation(),
   auth(["Standard"]),
-  response(async (dtoIn) => UserController.list(dtoIn))
+  response(async (dtoIn) => ShowController.list(dtoIn))
 );
 router.get(
   "/get",
   getValidation(),
   validate,
-  // auth("Standard"),
-  response(async (dtoIn) => UserController.get(dtoIn))
+  auth(["Standard"]),
+  response(async (dtoIn) => ShowController.get(dtoIn))
 );
 router.patch(
   "/update",
   updateValidation(),
   validate,
-  auth("Standard"),
-  response(async (dtoIn) => UserController.update(dtoIn))
+  auth(["Standard"]),
+  response(async (dtoIn) => ShowController.update(dtoIn))
 );
 router.patch(
   "/setProfile",
   setProfilesValidation(),
   validate,
-  auth("Standard"),
-  response(async (dtoIn) => UserController.setProfile(dtoIn))
+  auth(["Standard"]),
+  response(async (dtoIn) => ShowController.setProfile(dtoIn))
 );
 router.patch(
   "/setState",
   updateValidation(),
   validate,
-  auth("Standard"),
-  response(async (dtoIn) => UserController.setState(dtoIn))
+  auth(["Standard"]),
+  response(async (dtoIn) => ShowController.setState(dtoIn))
 );
 router.delete(
   "/delete",
   deleteValidation(),
   validate,
-  auth("Standard"),
-  response(async (dtoIn) => UserController.delete(dtoIn))
+  auth(["Standard"]),
+  response(async (dtoIn) => ShowController.delete(dtoIn))
 );
 
 module.exports = router;

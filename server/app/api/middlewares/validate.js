@@ -5,7 +5,6 @@ module.exports = (req, res, next) => {
   if (errors.isEmpty()) {
     return next();
   }
-  const extractedErrors = [];
   const errorsExp = errors.array().map((err) => ({ [err.param]: err.msg }));
   return res.status(HttpStatusCode.BAD_REQUEST).json({
     errors: errorsExp,

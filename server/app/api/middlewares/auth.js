@@ -6,7 +6,7 @@ module.exports = (rolesCheck) => async (req, res, next) => {
     /Bearer\s?/,
     ""
   );
-  const refreshToken = req.cookies;
+  //const refreshToken = req.cookies;
   if (accessToken) {
     try {
       const userData = jwts.verifyAccessToken(accessToken);

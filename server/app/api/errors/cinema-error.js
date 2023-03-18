@@ -1,4 +1,3 @@
-// eslint-disable-next-line max-classes-per-file
 const { AppError, HttpStatusCode } = require("./helpers/error");
 
 const Delete = {
@@ -30,11 +29,22 @@ const Delete = {
 };
 const Get = {
   UC_CODE: `${AppError.getCode()}cinema/get/`,
-  CinematIsNotExist: class extends AppError {
+  CinemaIsNotExist: class extends AppError {
     constructor() {
       super(...arguments);
       this.code = `${Get.UC_CODE}cinematIsNotExist`;
       this.message = "Cinema not exist";
+      this.statusCode = HttpStatusCode.CANNOT_GET;
+    }
+  },
+};
+const List = {
+  UC_CODE: `${AppError.getCode()}cinema/list/`,
+  CannotList: class extends AppError {
+    constructor(message) {
+      super(...arguments);
+      this.code = `${List.UC_CODE}cannotList`;
+      this.message = message || "Something wrong with database";
       this.statusCode = HttpStatusCode.CANNOT_GET;
     }
   },
@@ -115,4 +125,5 @@ module.exports = {
   Get,
   Update,
   Create,
+  List,
 };
