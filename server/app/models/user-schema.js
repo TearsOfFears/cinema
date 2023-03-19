@@ -1,16 +1,9 @@
 const { sequelize } = require("./../db/connect");
 const { DataTypes, Model } = require("sequelize");
 const Profiles = require("./profiles-schema");
-class User extends Model {
-  static associate({ Post }) {
-    // this.hasMany(Post, { foreignKey: "userId", as: "posts" });
-  }
-  toJSON() {
-    return { ...this.get(), id: undefined };
-  }
-}
+class User extends Model {}
 
-const UserSchema = User.init(
+User.init(
   {
     user_id: {
       type: DataTypes.UUID,
@@ -55,4 +48,4 @@ const UserSchema = User.init(
   }
 );
 
-module.exports = UserSchema;
+module.exports = User;

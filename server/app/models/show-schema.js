@@ -62,11 +62,6 @@ CinemaHall.hasMany(Show, {
   foreignKey: "cinema_hall_id",
   onDelete: "CASCADE",
 });
-// CinemaHall.belongsTo(Show, {
-//   foreignKey: "show_id",
-//   onDelete: "CASCADE",
-// });
-
 Movie.hasOne(Show, {
   foreignKey: "movie_id",
   onDelete: "CASCADE",

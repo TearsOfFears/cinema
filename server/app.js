@@ -2,6 +2,7 @@ const express = require("express");
 const fs = require("fs");
 const path = require("path");
 const userRouter = require("./app/api/routes/users");
+const bookingRouter = require("./app/api/routes/booking");
 const profileRouter = require("./app/api/routes/profiles");
 const cinemaRouter = require("./app/api/routes/cinema");
 const movieRouter = require("./app/api/routes/movie");
@@ -68,6 +69,7 @@ const routers = {
   movie: movieRouter,
   cinemaHall: cinemaHallRouter,
   show: showRouter,
+  booking: bookingRouter,
 };
 for (key in routers) {
   app.use(`/api/${key}`, routers[key]);
