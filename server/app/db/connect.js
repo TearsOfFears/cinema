@@ -1,7 +1,6 @@
 const { Sequelize } = require("sequelize");
 require("dotenv").config();
 const sequelize = new Sequelize(process.env.POSTGRES);
-
 async function openConnection() {
   await sequelize.sync({ alter: true });
   return sequelize.authenticate();

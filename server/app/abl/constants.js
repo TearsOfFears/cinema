@@ -1,4 +1,12 @@
 module.exports = {
+  Schemas: {
+    MANAGEMENT_MAIN: "user",
+    BOOKING: "booking",
+    SHOW: "show",
+    MOVIE: "movie",
+    CINEMA_HALL: "cinema-hall",
+    CINEMA: "cinema",
+  },
   STATES: {
     ACTIVE: "active",
     CLOSED: "closed",

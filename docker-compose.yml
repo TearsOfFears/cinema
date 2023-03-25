@@ -1,0 +1,35 @@
+version: "3.3"
+
+services:
+  api:
+    container_name: api
+    build:
+      context: server
+      dockerfile: Dockerfile
+    ports:
+      - 4444:4444
+    depends_on:
+      - postgres
+    volumes:
+      - ./server/app:/server/app
+      - /server/app/node_modules
+    restart: always
+    env_file:
+      - ./server/.env
+  postgres:
+    container_name: postgres
+    image: postgres:12
+    environment:
+      PG_DATA: /var/lib/postgresql/data
+      POSTGRES_DB: cinema
+      POSTGRES_PASSWORD: admin
+      POSTGRES_USER: postgres
+    volumes:
+      - cinemaData:/var/lib/postgresql/data
+    ports:
+      - 5416:5432
+    expose:
+      - 5416
+    restart: always
+volumes:
+  cinemaData:

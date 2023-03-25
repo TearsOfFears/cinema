@@ -71,8 +71,8 @@ const routers = {
   show: showRouter,
   booking: bookingRouter,
 };
-for (key in routers) {
-  app.use(`/api/${key}`, routers[key]);
+for (route in routers) {
+  app.use(`/api/${route}`, routers[route]);
 }
 app.use(handleError);
 app.listen(process.env.PORT, () => {

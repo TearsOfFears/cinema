@@ -1,22 +1,21 @@
-const DaoCinema = require("../../dao/cinema-dao");
-const Error = require("./../../api/errors/cinema-error").Create;
+const Errors = require("../../helpers/require-helpers").requireUseCaseError();
 const CountryApi = require("./../../api/components/countryApi");
 const { ERRORS_CODES, STATES } = require("./../constants");
-class CreateAbl {
+const Cinema = require("./cinema");
+class CreateAbl extends Cinema {
   constructor() {
-    this.dao = DaoCinema;
+    super(Errors);
   }
   async create(dtoIn) {
     let dtoOut;
     dtoIn.state = STATES.ACTIVE;
-    await this.getCity(dtoIn, Error);
     try {
       dtoOut = await this.dao.create(dtoIn);
     } catch (e) {
       if (e.name === ERRORS_CODES.DUPLICATE) {
-        throw new Error.CinemaNameAlreadyExist();
+        throw new Errors.CinemaNameAlreadyExist();
       }
-      throw new Error.CannotCreate(e);
+      throw new Errors.CannotCreate(e);
     }
     return dtoOut;
   }
