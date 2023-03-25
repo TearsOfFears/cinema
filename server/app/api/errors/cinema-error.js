@@ -1,28 +1,28 @@
 const { AppError, HttpStatusCode } = require("./helpers/error");
 
 const Delete = {
-  UC_CODE: `${AppError.getCode()}profiles/delete/`,
-  UserIsNotExist: class extends AppError {
+  UC_CODE: `${AppError.getCode()}cinema/delete/`,
+  CinemaIsNotExist: class extends AppError {
     constructor() {
       super(...arguments);
-      this.code = `${Delete.UC_CODE}userIsNotExist`;
-      this.message = "User not exist";
+      this.code = `${Delete.UC_CODE}cinemaIsNotExist`;
+      this.message = "Cinema is not exist";
       this.statusCode = HttpStatusCode.NOT_FOUND;
     }
   },
-  UserIsActiveState: class extends AppError {
+  CinemaIsInActiveState: class extends AppError {
     constructor() {
       super(...arguments);
-      this.code = `${Delete.UC_CODE}UserIsActiveState`;
-      this.message = "Cannot delete user in active state";
+      this.code = `${Delete.UC_CODE}cinemaIsInActiveState`;
+      this.message = "Cannot delete cinema in active state";
       this.statusCode = HttpStatusCode.BAD_REQUEST;
     }
   },
   CannotDelete: class extends AppError {
-    constructor() {
+    constructor(message) {
       super(...arguments);
       this.code = `${Delete.UC_CODE}cannotDelete`;
-      this.message = "Cannot delete user";
+      this.message = message || "Cannot delete cinema";
       this.statusCode = HttpStatusCode.BAD_REQUEST;
     }
   },
@@ -95,11 +95,10 @@ const Create = {
     }
   },
   CannotGetCountry: class extends AppError {
-    constructor(message) {
+    constructor() {
       super(...arguments);
       this.code = `${Create.UC_CODE}cannotGetCountry`;
-      this.message =
-        message || "Cannot create cinema something wrong with country api";
+      this.message = "Cannot create cinema something wrong with country api";
       this.statusCode = HttpStatusCode.CANNOT_GET;
     }
   },

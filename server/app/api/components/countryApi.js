@@ -14,14 +14,14 @@ class CountryApi extends AppClient {
     try {
       return await super.get(`countries/${country}/states/${state}/cities`);
     } catch (e) {
-      throw new this.errors.CannotGetCountry(e);
+      throw new this.errors.CannotGetCountry();
     }
   }
   async getCountryByCode({ country }) {
     try {
       return await super.get(`countries/${country}`);
     } catch (e) {
-      throw new this.errors.CountryNotFound(e);
+      throw new this.errors.CountryNotFound();
     }
   }
 }

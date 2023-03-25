@@ -1,3 +1,5 @@
+const { requireDao } = require("../../helpers/require-helpers");
+
 class Context {
   constructor() {}
   createObject(object, data) {

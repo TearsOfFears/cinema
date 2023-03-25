@@ -1,26 +1,31 @@
-const Errors = require("../../helpers/require-helpers").requireUseCaseError();
 const CountryApi = require("./../../api/components/countryApi");
 const { ERRORS_CODES, STATES } = require("./../constants");
 const Cinema = require("./cinema");
+const path = require("path");
+const errors = {
+  entity: path.basename(module.path),
+  cmd: path.basename(__filename, ".js"),
+};
 class CreateAbl extends Cinema {
   constructor() {
-    super(Errors);
+    super(errors.entity, errors.cmd);
   }
   async create(dtoIn) {
     let dtoOut;
-    dtoIn.state = STATES.ACTIVE;
+    dtoIn.state = STATES.PASSIVE;
+    await this.getCity(dtoIn, this.errors);
     try {
       dtoOut = await this.dao.create(dtoIn);
     } catch (e) {
       if (e.name === ERRORS_CODES.DUPLICATE) {
-        throw new Errors.CinemaNameAlreadyExist();
+        throw new this.errors.CinemaNameAlreadyExist();
       }
-      throw new Errors.CannotCreate(e);
+      throw new this.errors.CannotCreate(e);
     }
     return dtoOut;
   }
   async getCity(dtoIn, errors) {
-    const countryInstance = new CountryApi(Error);
+    const countryInstance = new CountryApi(errors);
     const data = await countryInstance.getCityByCode({
       country: dtoIn.location.country,
       state: dtoIn.location.state,

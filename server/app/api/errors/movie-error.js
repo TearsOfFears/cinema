@@ -140,10 +140,10 @@ const Create = {
     }
   },
   CountryNotFound: class extends AppError {
-    constructor(message) {
+    constructor() {
       super(...arguments);
       this.code = `${Create.UC_CODE}countryNotFound`;
-      this.message = message || "One of the Country with code does not exist";
+      this.message = "One of the Country with code does not exist";
       this.statusCode = HttpStatusCode.CANNOT_GET;
     }
   },

@@ -1,9 +1,9 @@
 const path = require("path");
 module.exports = {
-  requireUseCaseError(errorsFile, entityName) {
+  requireUseCaseError(entityName, cmd) {
     const entity = entityName || path.basename(module.parent.path);
     const useCase =
-      errorsFile || path.basename(module.parent.filename).split(".js")[0];
+      cmd || path.basename(module.parent.filename).split(".js")[0];
     return require(path.join("../api/errors", path.join(entity + "-error.js")))[
       useCase[0].toUpperCase() + useCase.slice(1)
     ];
@@ -11,7 +11,6 @@ module.exports = {
   requireAllErrors(errorsFile) {
     const fileName =
       errorsFile || path.basename(module.parent.path).split(".js")[0];
-    console.log("fileName", fileName);
     return require(path.join(
       "../api/errors",
       path.join(fileName + "-error.js")
