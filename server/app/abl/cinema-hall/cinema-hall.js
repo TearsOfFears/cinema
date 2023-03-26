@@ -1,9 +1,9 @@
 const DaoCinemeHall = require("./../../dao/cinema-hall-dao");
 const Context = require("./../../api/components/context");
 const { STATES } = require("./../constants");
-class Show extends Context {
+class Show {
   constructor() {
-    super();
+    // super();
     this.dao = DaoCinemeHall;
   }
   async checkMovieExistAndState(dtoIn, Errors) {

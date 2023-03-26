@@ -1,14 +1,9 @@
 const CountryApi = require("./../../api/components/countryApi");
 const { ERRORS_CODES, STATES } = require("./../constants");
 const Cinema = require("./cinema");
-const path = require("path");
-const errors = {
-  entity: path.basename(module.path),
-  cmd: path.basename(__filename, ".js"),
-};
 class CreateAbl extends Cinema {
-  constructor() {
-    super(errors.entity, errors.cmd);
+  constructor(ctx) {
+    super(ctx);
   }
   async create(dtoIn) {
     let dtoOut;
@@ -39,4 +34,4 @@ class CreateAbl extends Cinema {
     }
   }
 }
-module.exports = new CreateAbl();
+module.exports = CreateAbl;

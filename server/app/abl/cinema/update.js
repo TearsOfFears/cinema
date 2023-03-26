@@ -1,18 +1,17 @@
-const DaoProfiles = require("../../dao/profiles-dao");
 const Error = require("./../../api/errors/profiles-error").Update;
-
-class UpdateAbl {
-  constructor() {
-    this.dao = DaoProfiles;
+const Cinema = require("./cinema");
+class UpdateAbl extends Cinema {
+  constructor(ctx) {
+    super(ctx);
   }
   async update(dtoIn) {
     let dtoOut;
     try {
       dtoOut = await this.dao.update(dtoIn);
     } catch (e) {
-      throw new Error.CannotUpdate();
+      throw new this.errors.CannotUpdate();
     }
     return dtoOut;
   }
 }
-module.exports = new UpdateAbl();
+module.exports = UpdateAbl;

@@ -1,26 +1,24 @@
-const DaoUser = require("../../dao/user-dao");
 const { STATES } = require("./constants");
-const Error = require("./../../api/errors/user-error").Update;
-
-class SetStateAbl {
-  constructor() {
-    this.dao = DaoUser;
+const Cinema = require("./cinema");
+class SetStateAbl extends Cinema {
+  constructor(ctx) {
+    super(ctx);
   }
   async setState(dtoIn) {
     const user = await this.dao.get(dtoIn.id);
     if (!user) {
-      throw new Error.UserIsNotExist();
+      throw new this.errors.UserIsNotExist();
     }
     if (user.state !== STATES.ACTIVE) {
-      throw new Error.UserIsNotActiveState();
+      throw new this.errors.UserIsNotActiveState();
     }
     let dtoOut;
     try {
       dtoOut = await this.dao.update(dtoIn);
     } catch (e) {
-      throw new Error.CannotUpdate();
+      throw new this.errors.CannotUpdate();
     }
     return dtoOut;
   }
 }
-module.exports = new SetStateAbl();
+module.exports = SetStateAbl;

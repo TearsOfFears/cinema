@@ -1,25 +1,20 @@
-const DaoUser = require("../../dao/user-dao");
-const Error = require("./../../api/errors/user-error").SeState;
-
 class SetStateAbl {
-  constructor() {
-    this.dao = DaoUser;
-  }
-  async setState(dtoIn) {
-    const user = await this.dao.get(dtoIn.id);
+  async setState(ctx, dtoIn) {
+    console.log("ctx", ctx);
+    const user = await ctx.dao.get(dtoIn.id);
     if (!user) {
-      throw new Error.UserIsNotExist();
+      throw new ctx.errors.UserIsNotExist();
     }
     if (user.state === dtoIn.ACTIVE) {
-      throw new Error.UserIsAlreadyInActiveState();
+      throw new ctx.errors.UserIsAlreadyInActiveState();
     }
     let dtoOut;
     try {
-      dtoOut = await this.dao.setState(dtoIn);
+      dtoOut = await ctx.dao.setState(dtoIn);
     } catch (e) {
-      throw new Error.CannotUpdate();
+      throw new ctx.errors.CannotUpdate();
     }
     return dtoOut;
   }
 }
-module.exports = new SetStateAbl();
+module.exports = SetStateAbl;

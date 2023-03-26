@@ -1,14 +1,10 @@
-const { requireDao } = require("./../../helpers/require-helpers");
-const Context = require("./../../api/components/context");
 const { STATES } = require("./constants");
-class Cinema extends Context {
-  constructor(entity, useCase) {
-    super();
-    this.dao = requireDao(entity);
-    this.errors = require("../../helpers/require-helpers").requireUseCaseError(
-      entity,
-      useCase
-    );
+const { Schemas } = require("./../constants");
+class Cinema {
+  constructor(ctx) {
+    this.errors = ctx.errors;
+    this.dao = ctx.dao;
+    // this.daoCheck = ctx.getSpecificDao(Schemas.SHOW);
   }
   async getCinema(id) {
     const cinema = await this.dao.get(id);

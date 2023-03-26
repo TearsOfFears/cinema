@@ -1,12 +1,8 @@
 const Cinema = require("./cinema");
-const path = require("path");
-const errors = {
-  entity: path.basename(module.path),
-  cmd: path.basename(__filename, ".js"),
-};
-class DeleteAbl {
-  constructor() {
-    // super();
+
+class DeleteAbl extends Cinema {
+  constructor(ctx) {
+    super(ctx);
   }
   async delete(dtoIn) {
     await super.getCinemaAndActiveState(dtoIn.id);
@@ -19,4 +15,4 @@ class DeleteAbl {
   }
 }
 
-module.exports = new DeleteAbl();
+module.exports = DeleteAbl;

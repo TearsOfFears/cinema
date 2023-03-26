@@ -60,15 +60,15 @@ const Auth = {
   CannotGetUser: class extends AppError {
     constructor(message) {
       super(...arguments);
-      this.code = `${Registration.UC_CODE}CannotGetUser`;
-      this.message = "User not found";
+      this.code = `${Auth.UC_CODE}CannotGetUser`;
+      this.message = "Cannot get user";
       this.statusCode = HttpStatusCode.CANNOT_GET;
     }
   },
   PasswordIsNotCorrect: class extends AppError {
     constructor(message) {
       super(...arguments);
-      this.code = `${Login.UC_CODE}passwordIsNotCorrect`;
+      this.code = `${Auth.UC_CODE}passwordIsNotCorrect`;
       this.message = "Authentication failed. Wrong password";
       this.statusCode = HttpStatusCode.CANNOT_GET;
     }
@@ -76,7 +76,34 @@ const Auth = {
   UserNotFound: class extends AppError {
     constructor(message) {
       super(...arguments);
-      this.code = `${Login.UC_CODE}userNotFound`;
+      this.code = `${Auth.UC_CODE}userNotFound`;
+      this.message = "User with this credendtial not found";
+      this.statusCode = HttpStatusCode.CANNOT_GET;
+    }
+  },
+};
+const Refresh = {
+  UC_CODE: `${AppError.getCode()}user/refresh/`,
+  CannotGetUser: class extends AppError {
+    constructor(message) {
+      super(...arguments);
+      this.code = `${Refresh.UC_CODE}CannotGetUser`;
+      this.message = "Cannot get user";
+      this.statusCode = HttpStatusCode.CANNOT_GET;
+    }
+  },
+  PasswordIsNotCorrect: class extends AppError {
+    constructor(message) {
+      super(...arguments);
+      this.code = `${Refresh.UC_CODE}passwordIsNotCorrect`;
+      this.message = "Authentication failed. Wrong password";
+      this.statusCode = HttpStatusCode.CANNOT_GET;
+    }
+  },
+  UserNotFound: class extends AppError {
+    constructor(message) {
+      super(...arguments);
+      this.code = `${Refresh.UC_CODE}userNotFound`;
       this.message = "User with this credendtial not found";
       this.statusCode = HttpStatusCode.CANNOT_GET;
     }
@@ -223,6 +250,7 @@ module.exports = {
   Delete,
   Get,
   Auth,
+  Refresh,
   Update,
   SetState,
   SetProfile,

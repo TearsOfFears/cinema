@@ -53,28 +53,28 @@ router.patch(
   "/update",
   updateValidation(),
   validate,
-  auth("Standard"),
+  auth(["Standard"]),
   response(async (dtoIn) => UserController.update(dtoIn))
 );
 router.patch(
   "/setProfile",
   setProfilesValidation(),
   validate,
-  auth("Standard"),
+  auth(["Standard"]),
   response(async (dtoIn) => UserController.setProfile(dtoIn))
 );
 router.patch(
   "/setState",
   updateValidation(),
   validate,
-  auth("Standard"),
+  auth(["Standard"]),
   response(async (dtoIn) => UserController.setState(dtoIn))
 );
 router.delete(
   "/delete",
   deleteValidation(),
   validate,
-  auth("Standard"),
+  auth(["Standard"]),
   response(async (dtoIn) => UserController.delete(dtoIn))
 );
 

@@ -1,25 +1,25 @@
-const DaoUser = require("../../dao/user-dao");
-const DeleteError = require("./../../api/errors/user-error").Delete;
 const { STATES } = require("../constants");
-class DeleteAbl {
-  constructor() {
-    this.dao = DaoUser;
+const User = require("./user");
+class DeleteAbl extends User {
+  constructor(ctx) {
+    super(ctx);
   }
-  async delete(dtoIn) {
+  async delete(ctx, dtoIn) {
+    console.log("dto in", dtoIn);
     const user = await this.dao.get(dtoIn.id);
     if (!user) {
-      throw new DeleteError.UserIsNotExist();
+      throw new this.errors.UserIsNotExist();
     }
     if (user.state === STATES.ACTIVE) {
-      throw new DeleteError.UserIsActiveState();
+      throw new this.errors.UserIsActiveState();
     }
     try {
       await this.dao.delete(dtoIn.id);
     } catch (e) {
-      throw new DeleteError.CannotDelete();
+      throw new this.errors.CannotDelete();
     }
     return dtoIn;
   }
 }
 
-module.exports = new DeleteAbl();
+module.exports = DeleteAbl;

@@ -1,33 +1,29 @@
-const DaoUser = require("../../dao/user-dao");
 const { STATES } = require("../constants");
-const DaoProfiles = require("../../dao/profiles-dao");
-const Error = require("./../../api/errors/user-error").SetProfile;
-
-class SetProfileAbl {
-  constructor() {
-    this.dao = DaoUser;
-    this.daoProfiles = DaoProfiles;
+const User = require("./user");
+class SetProfileAbl extends User {
+  constructor(ctx) {
+    super(ctx);
   }
-  async setProfile(dtoIn) {
+  async setProfile(ctx, dtoIn) {
     const user = await this.dao.get(dtoIn.id);
     if (!user) {
-      throw new Error.UserIsNotExist();
+      throw new this.errors.UserIsNotExist();
     }
     if (user.state !== STATES.ACTIVE) {
-      throw new Error.UserIsNotActiveState();
+      throw new this.errors.UserIsNotActiveState();
     }
     let profilesArrayId = await this.daoProfiles.getProfilesByIds(dtoIn);
     if (profilesArrayId.length !== dtoIn.profilesArrayId.length) {
-      throw new Error.OneOfTheProfilesDoesNotExist();
+      throw new this.errors.OneOfTheProfilesDoesNotExist();
     }
     let dtoOut;
     try {
       const { id, ...dto } = dtoIn;
       dtoOut = await this.dao.updateProfiles(id, dto);
     } catch (e) {
-      throw new Error.CannotUpdate();
+      throw new this.errors.CannotUpdate();
     }
     return dtoOut;
   }
 }
-module.exports = new SetProfileAbl();
+module.exports = SetProfileAbl;

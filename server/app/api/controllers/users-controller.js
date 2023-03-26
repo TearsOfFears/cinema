@@ -1,38 +1,47 @@
-const UserAuthAbl = require("../../abl/user/user");
-const UserListAbl = require("../../abl/user/list");
-const UserDeleteAbl = require("../../abl/user/delete");
-const UserGetAbl = require("../../abl/user/get");
-const UserUpdateAbl = require("../../abl/user/update");
-const UserSetProfileAbl = require("../../abl/user/set-profile");
-const UserSetStateAbl = require("../../abl/user/set-state");
-
+const AuthAbl = require("../../abl/user/auth");
+const ListAbl = require("../../abl/user/list");
+const DeleteAbl = require("../../abl/user/delete");
+const GetAbl = require("../../abl/user/get");
+const UpdateAbl = require("../../abl/user/update");
+const SetProfileAbl = require("../../abl/user/set-profile");
+const SetStateAbl = require("../../abl/user/set-state");
+const Context = require("./../components/context");
 class UsersController {
-  registration(dtoIn) {
-    return UserAuthAbl.registration(dtoIn);
+  registration(data) {
+    const ctx = new Context(data);
+    return ctx.createUseCaseInstance(AuthAbl).registration(ctx.dtoIn);
   }
-  refresh(dtoIn) {
-    return UserAuthAbl.refresh(dtoIn);
+  refresh(data) {
+    const ctx = new Context(data);
+    return ctx.createUseCaseInstance(AuthAbl).refresh(ctx.dtoIn);
   }
-  login(dtoIn) {
-    return UserAuthAbl.login(dtoIn);
+  login(data) {
+    const ctx = new Context(data);
+    return ctx.createUseCaseInstance(AuthAbl).login(ctx.dtoIn);
   }
-  list(dtoIn) {
-    return UserListAbl.list(dtoIn);
+  list(data) {
+    const ctx = new Context(data);
+    return ctx.createUseCaseInstance(ListAbl).list(ctx, ctx.dtoIn);
   }
-  delete(dtoIn) {
-    return UserDeleteAbl.delete(dtoIn);
+  delete(data) {
+    const ctx = new Context(data);
+    return ctx.createUseCaseInstance(DeleteAbl).delete(ctx, ctx.dtoIn);
   }
-  get(dtoIn) {
-    return UserGetAbl.get(dtoIn);
+  get(data) {
+    const ctx = new Context(data);
+    return ctx.createUseCaseInstance(GetAbl).get(ctx.dtoIn);
   }
-  update(dtoIn) {
-    return UserUpdateAbl.update(dtoIn);
+  update(data) {
+    const ctx = new Context(data);
+    return ctx.createUseCaseInstance(UpdateAbl).update(ctx, ctx.dtoIn);
   }
-  setProfile(dtoIn) {
-    return UserSetProfileAbl.setProfile(dtoIn);
+  setProfile(data) {
+    const ctx = new Context(data);
+    return ctx.createUseCaseInstance(SetProfileAbl).setProfile(ctx.dtoIn);
   }
-  setState(dtoIn) {
-    return UserSetStateAbl.setState(dtoIn);
+  setState(data) {
+    const ctx = new Context(data);
+    return ctx.createUseCaseInstance(SetStateAbl).setState(ctx, ctx.dtoIn);
   }
 }
 

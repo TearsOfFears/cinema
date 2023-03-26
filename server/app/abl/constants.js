@@ -3,6 +3,7 @@ module.exports = {
     MANAGEMENT_MAIN: "user",
     BOOKING: "booking",
     SHOW: "show",
+    PROFILES: "profiles",
     MOVIE: "movie",
     CINEMA_HALL: "cinema-hall",
     CINEMA: "cinema",

@@ -1,22 +1,19 @@
-const DaoProfiles = require("../../dao/cinema-dao");
-const { STATES } = require("./constants");
-const Error = require("../../api/errors/profiles-error").Get;
-
-class GetAbl {
-  constructor() {
-    this.dao = DaoProfiles;
+const Cinema = require("./cinema");
+class GetAbl extends Cinema {
+  constructor(ctx) {
+    super(ctx);
   }
   async get(dtoIn) {
-    let user;
+    let cinema;
     try {
-      user = await this.dao.get(dtoIn.id);
+      cinema = await this.dao.get(dtoIn.id);
     } catch (e) {
       console.log(e);
     }
-    if (!user) {
-      throw new Error.ProfileIsNotExist();
+    if (!cinema) {
+      throw new this.errors.ProfileIsNotExist();
     }
-    return user;
+    return cinema;
   }
 }
-module.exports = new GetAbl();
+module.exports = GetAbl;

@@ -5,7 +5,6 @@ class CinemaDao {
     this.dao = CinemaSchema;
   }
   async create(object) {
-    const { location } = object;
     const doc = await this.dao.create(object);
     return doc?.dataValues;
   }
@@ -30,7 +29,7 @@ class CinemaDao {
   async delete(id) {
     return await this.dao.destroy({
       where: {
-        user_id: id,
+        cinema_id: id,
       },
     });
   }
@@ -47,30 +46,19 @@ class CinemaDao {
     const { id, username } = dtoIn;
     const doc = await this.dao.update(
       { username },
-      { where: { user_id: id }, returning: true, plain: true }
+      { where: { cinema_id: id }, returning: true, plain: true }
     );
     if (!doc) return null;
-    const { password_hash, ...dtoOut } = doc[1].dataValues;
-    return dtoOut;
-  }
-  async updateProfiles(id, dtoIn) {
-    const doc = await this.dao.update(
-      { profiles: dtoIn.profilesArrayId },
-      { where: { user_id: id }, returning: true, plain: true }
-    );
-    if (!doc) return null;
-    const { password_hash, ...dtoOut } = doc[1].dataValues;
-    return dtoOut;
+    return doc[1].dataValues;
   }
   async setState(dtoIn) {
     const { id, state } = dtoIn;
     const doc = await this.dao.update(
       { state },
-      { where: { user_id: id }, returning: true, plain: true }
+      { where: { cinema_id: id }, returning: true, plain: true }
     );
     if (!doc) return null;
-    const { password_hash, ...dtoOut } = doc[1].dataValues;
-    return dtoOut;
+    return doc[1].dataValues;
   }
 }
 

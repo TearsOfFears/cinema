@@ -1,27 +1,21 @@
-const DaoUser = require("../../dao/user-dao");
 const { STATES } = require("../constants");
-const Error = require("./../../api/errors/user-error").Update;
 
 class UpdateAbl {
-  constructor() {
-    this.dao = DaoUser;
-  }
-  async update(dtoIn) {
-    const user = await this.dao.get(dtoIn.id);
+  async update(ctx, dtoIn) {
+    const user = await ctx.dao.get(dtoIn.id);
     if (!user) {
-      throw new Error.UserIsNotExist();
+      throw new ctx.errors.UserIsNotExist();
     }
     if (user.state !== STATES.ACTIVE) {
-      throw new Error.UserIsNotActiveState();
+      throw new ctx.errors.UserIsNotActiveState();
     }
     let dtoOut;
     try {
       dtoOut = await this.dao.update(dtoIn);
     } catch (e) {
-      console.log(e);
-      throw new Error.CannotUpdate();
+      throw new ctx.errors.CannotUpdate();
     }
     return dtoOut;
   }
 }
-module.exports = new UpdateAbl();
+module.exports = UpdateAbl;

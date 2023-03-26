@@ -17,4 +17,4 @@ class GetAbl {
     return user;
   }
 }
-module.exports = new GetAbl();
+module.exports = GetAbl;

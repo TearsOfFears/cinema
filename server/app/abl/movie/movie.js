@@ -2,10 +2,10 @@ const DaoMovie = require("./../../dao/movie-dao");
 const CountryApi = require("../../api/components/countryApi");
 const Context = require("./../../api/components/context");
 const { STATES } = require("./constants");
-class Movie extends Context {
+class Movie {
   constructor() {
-    super();
-    this.daoMovie = DaoMovie;
+    // super();
+    // this.daoMovie = DaoMovie;
   }
   async getCountry(dtoIn, Errors) {
     const countryInstance = super.createObject(CountryApi, Errors);

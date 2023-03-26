@@ -1,9 +1,9 @@
 const DaoBooking = require("./../../dao/booking-dao");
 const Context = require("./../../api/components/context");
 const { STATES } = require("./../constants");
-class Show extends Context {
+class Booking {
   constructor() {
-    super();
+    // super();
     this.dao = DaoBooking;
   }
   async checkMovieExistAndState(dtoIn, Errors) {
@@ -14,4 +14,4 @@ class Show extends Context {
   }
 }
 
-module.exports = Show;
+module.exports = Booking;
