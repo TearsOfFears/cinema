@@ -1,10 +1,10 @@
 const { STATES } = require("./constants");
-const { Schemas } = require("./../constants");
 class Cinema {
   constructor(ctx) {
+    this.ctx = ctx;
     this.errors = ctx.errors;
     this.dao = ctx.dao;
-    // this.daoCheck = ctx.getSpecificDao(Schemas.SHOW);
+    this.dtoIn = ctx.dtoIn;
   }
   async getCinema(id) {
     const cinema = await this.dao.get(id);
@@ -14,7 +14,7 @@ class Cinema {
     return cinema;
   }
   async getCinemaAndActiveState(id) {
-    const cinema = this.getCinema(id);
+    const cinema = await this.getCinema(id);
     if (cinema.state === STATES.ACTIVE) {
       throw new this.errors.CinemaIsInActiveState();
     }

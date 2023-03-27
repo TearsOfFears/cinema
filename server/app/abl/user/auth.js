@@ -9,8 +9,8 @@ class AuthAbl extends User {
     this.passwordHashing = passwordHashing;
     this.jwt = jwtActions;
   }
-  async registration(dtoIn) {
-    const { password, email, username, phone } = dtoIn;
+  async registration() {
+    const { password, email, username, phone } = this.dtoIn;
     const password_hash = this.passwordHashing.generatePassword(password);
     const standardProfile = await this.daoProfiles.getProfilesByName({
       name: "Standard",
@@ -37,8 +37,8 @@ class AuthAbl extends User {
     };
   }
 
-  async login(dtoIn) {
-    const { password, email } = dtoIn;
+  async login() {
+    const { password, email } = this.dtoIn;
     let user;
     try {
       user = await this.dao.getByEmail(email);
@@ -60,8 +60,8 @@ class AuthAbl extends User {
       throw new this.errors.PasswordIsNotCorrect();
     }
   }
-  async refresh(dtoIn) {
-    const { id } = dtoIn;
+  async refresh() {
+    const { id } = this.dtoIn;
     let user;
     try {
       user = await this.dao.get(id);

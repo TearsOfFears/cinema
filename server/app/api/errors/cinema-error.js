@@ -114,13 +114,33 @@ const Create = {
     constructor() {
       super(...arguments);
       this.code = `${Create.UC_CODE}cinemaNameAlreadyExist`;
-      this.message = "Movie with this name already exist";
+      this.message = "Cinema with this name already exist";
+      this.statusCode = HttpStatusCode.BAD_REQUEST;
+    }
+  },
+};
+const SetState = {
+  UC_CODE: `${AppError.getCode()}cinema/setState/`,
+  CinemaIsNotExist: class extends AppError {
+    constructor() {
+      super(...arguments);
+      this.code = `${SetState.UC_CODE}cinemaIsNotExist`;
+      this.message = "Cinema is not exist";
+      this.statusCode = HttpStatusCode.NOT_FOUND;
+    }
+  },
+  CannotSetState: class extends AppError {
+    constructor() {
+      super(...arguments);
+      this.code = `${SetState.UC_CODE}cannotSetState`;
+      this.message = "Cannot set state for cinema something wrong wit database";
       this.statusCode = HttpStatusCode.BAD_REQUEST;
     }
   },
 };
 module.exports = {
   Delete,
+  SetState,
   Get,
   Update,
   Create,

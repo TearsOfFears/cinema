@@ -9,39 +9,39 @@ const Context = require("./../components/context");
 class UsersController {
   registration(data) {
     const ctx = new Context(data);
-    return ctx.createUseCaseInstance(AuthAbl).registration(ctx.dtoIn);
+    return ctx.createUseCaseInstance(AuthAbl).registration();
   }
   refresh(data) {
     const ctx = new Context(data);
-    return ctx.createUseCaseInstance(AuthAbl).refresh(ctx.dtoIn);
+    return ctx.createUseCaseInstance(AuthAbl).refresh();
   }
   login(data) {
     const ctx = new Context(data);
-    return ctx.createUseCaseInstance(AuthAbl).login(ctx.dtoIn);
+    return ctx.createUseCaseInstance(AuthAbl).login();
   }
   list(data) {
     const ctx = new Context(data);
-    return ctx.createUseCaseInstance(ListAbl).list(ctx, ctx.dtoIn);
+    return ctx.createUseCaseInstance(ListAbl).list();
   }
   delete(data) {
     const ctx = new Context(data);
-    return ctx.createUseCaseInstance(DeleteAbl).delete(ctx, ctx.dtoIn);
+    return ctx.createUseCaseInstance(DeleteAbl).delete();
   }
   get(data) {
     const ctx = new Context(data);
-    return ctx.createUseCaseInstance(GetAbl).get(ctx.dtoIn);
+    return ctx.createUseCaseInstance(GetAbl).get();
   }
   update(data) {
     const ctx = new Context(data);
-    return ctx.createUseCaseInstance(UpdateAbl).update(ctx, ctx.dtoIn);
+    return ctx.createUseCaseInstance(UpdateAbl).update();
   }
   setProfile(data) {
     const ctx = new Context(data);
-    return ctx.createUseCaseInstance(SetProfileAbl).setProfile(ctx.dtoIn);
+    return ctx.createUseCaseInstance(SetProfileAbl).setProfile();
   }
   setState(data) {
     const ctx = new Context(data);
-    return ctx.createUseCaseInstance(SetStateAbl).setState(ctx, ctx.dtoIn);
+    return ctx.createUseCaseInstance(SetStateAbl).setState();
   }
 }
 

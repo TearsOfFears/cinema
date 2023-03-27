@@ -4,9 +4,8 @@ class DeleteAbl extends User {
   constructor(ctx) {
     super(ctx);
   }
-  async delete(ctx, dtoIn) {
-    console.log("dto in", dtoIn);
-    const user = await this.dao.get(dtoIn.id);
+  async delete() {
+    const user = await this.dao.get(this.dtoIn.id);
     if (!user) {
       throw new this.errors.UserIsNotExist();
     }
@@ -14,11 +13,11 @@ class DeleteAbl extends User {
       throw new this.errors.UserIsActiveState();
     }
     try {
-      await this.dao.delete(dtoIn.id);
+      await this.dao.delete(this.dtoIn.id);
     } catch (e) {
       throw new this.errors.CannotDelete();
     }
-    return dtoIn;
+    return this.dtoIn;
   }
 }
 

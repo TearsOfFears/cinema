@@ -53,6 +53,7 @@ class CinemaDao {
   }
   async setState(dtoIn) {
     const { id, state } = dtoIn;
+    console.log(id, state);
     const doc = await this.dao.update(
       { state },
       { where: { cinema_id: id }, returning: true, plain: true }

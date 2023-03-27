@@ -20,6 +20,13 @@ router.post(
   auth(["Standard"]),
   response(async (dtoIn) => CinemaController.create(dtoIn))
 );
+router.post(
+  "/setState",
+  // createValidation(),
+  // validate,
+  auth(["Standard"]),
+  response(async (dtoIn) => CinemaController.setState(dtoIn))
+);
 router.get(
   "/list",
   listValidation(),

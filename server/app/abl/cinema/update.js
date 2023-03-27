@@ -1,4 +1,3 @@
-const Error = require("./../../api/errors/profiles-error").Update;
 const Cinema = require("./cinema");
 class UpdateAbl extends Cinema {
   constructor(ctx) {

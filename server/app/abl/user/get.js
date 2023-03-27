@@ -1,18 +1,17 @@
-const DaoUser = require("../../dao/user-dao");
 const { STATES } = require("../constants");
-const Error = require("../../api/errors/user-error").Get;
+const User = require("./user");
 
-class GetAbl {
-  constructor() {
-    this.dao = DaoUser;
+class GetAbl extends User {
+  constructor(ctx) {
+    super(ctx);
   }
-  async get(dtoIn) {
-    const user = await this.dao.get(dtoIn.id);
+  async get() {
+    const user = await this.dao.get(this.dtoIn.id);
     if (!user) {
-      throw new Error.UserIsNotExist();
+      throw new this.errors.UserIsNotExist();
     }
     if (user.state !== STATES.ACTIVE) {
-      throw new Error.UserIsNotActiveState();
+      throw new this.errors.UserIsNotActiveState();
     }
     return user;
   }

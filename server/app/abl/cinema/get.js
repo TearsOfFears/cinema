@@ -3,10 +3,10 @@ class GetAbl extends Cinema {
   constructor(ctx) {
     super(ctx);
   }
-  async get(dtoIn) {
+  async get() {
     let cinema;
     try {
-      cinema = await this.dao.get(dtoIn.id);
+      cinema = await this.dao.get(this.dtoIn.id);
     } catch (e) {
       console.log(e);
     }

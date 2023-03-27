@@ -4,14 +4,14 @@ class DeleteAbl extends Cinema {
   constructor(ctx) {
     super(ctx);
   }
-  async delete(dtoIn) {
-    await super.getCinemaAndActiveState(dtoIn.id);
+  async delete() {
+    await super.getCinemaAndActiveState(this.dtoIn.id);
     try {
-      await this.dao.delete(dtoIn.id);
+      await this.dao.delete(this.dtoIn.id);
     } catch (e) {
       throw new this.errors.CannotDelete(e);
     }
-    return dtoIn;
+    return this.dtoIn;
   }
 }
 

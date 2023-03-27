@@ -5,12 +5,12 @@ class CreateAbl extends Cinema {
   constructor(ctx) {
     super(ctx);
   }
-  async create(dtoIn) {
+  async create() {
     let dtoOut;
-    dtoIn.state = STATES.PASSIVE;
-    await this.getCity(dtoIn, this.errors);
+    this.dtoIn.state = STATES.PASSIVE;
+    await this.getCity(this.dtoIn, this.errors);
     try {
-      dtoOut = await this.dao.create(dtoIn);
+      dtoOut = await this.dao.create(this.dtoIn);
     } catch (e) {
       if (e.name === ERRORS_CODES.DUPLICATE) {
         throw new this.errors.CinemaNameAlreadyExist();

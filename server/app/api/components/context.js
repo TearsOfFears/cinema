@@ -19,7 +19,7 @@ class Context {
   get dao() {
     return requireDao(this.entity);
   }
-  getSpecificDao(dao) {
+  getDao(dao) {
     return requireDao(dao);
   }
   get fullContext() {
@@ -27,7 +27,7 @@ class Context {
       dao: this.dao,
       errors: this.errors,
       dtoIn: this.dtoIn,
-      getSpecificDao: this.getSpecificDao,
+      getDao: this.getDao,
     };
   }
   createObject(object, data) {

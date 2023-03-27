@@ -4,19 +4,13 @@ class SetStateAbl extends Cinema {
   constructor(ctx) {
     super(ctx);
   }
-  async setState(dtoIn) {
-    const user = await this.dao.get(dtoIn.id);
-    if (!user) {
-      throw new this.errors.UserIsNotExist();
-    }
-    if (user.state !== STATES.ACTIVE) {
-      throw new this.errors.UserIsNotActiveState();
-    }
+  async setState(ctx, dtoIn) {
+    await super.getCinema(this.dtoIn.id);
     let dtoOut;
     try {
-      dtoOut = await this.dao.update(dtoIn);
+      dtoOut = await this.dao.setState(this.dtoIn);
     } catch (e) {
-      throw new this.errors.CannotUpdate();
+      throw new this.errors.CannotSetState();
     }
     return dtoOut;
   }
